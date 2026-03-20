@@ -1,0 +1,81 @@
+{
+    "tasks": [
+        {
+            "type": "shell",
+            "label": "Build C++ project",
+            "command": "mkdir -p build && clang++ -std=c++17 -Wall -Wextra -g $(find . -name '*.cpp' -not -path './build/*') -o build/app",
+            "windows": {
+                "command": "if not exist build mkdir build && powershell -NoProfile -ExecutionPolicy Bypass -Command \"$files = Get-ChildItem -Path . -Recurse -Filter *.cpp | Where-Object { $_.FullName -notmatch '\\\\build\\\\' } | ForEach-Object { $_.FullName }; g++ -std=c++17 -Wall -Wextra -g $files -o build/app.exe\""
+            },
+            "linux": {
+                "command": "mkdir -p build && g++ -std=c++17 -Wall -Wextra -g $(find . -name '*.cpp' -not -path './build/*') -o build/app"
+            },
+            "args": [],
+            "options": {
+                "cwd": "${workspaceFolder}"
+            },
+            "problemMatcher": [
+                "$gcc"
+            ],
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            },
+            "presentation": {
+                "reveal": "always",
+                "focus": true,
+                "panel": "dedicated",
+                "clear": true
+            },
+            "detail": "Buduje wszystkie pliki .cpp (macOS: clang++, Windows/Linux: g++)."
+        },
+        {
+            "type": "shell",
+            "label": "Run C++ app",
+            "command": "./build/app",
+            "windows": {
+                "command": ".\\build\\app.exe"
+            },
+            "dependsOn": "Build C++ project",
+            "presentation": {
+                "reveal": "always",
+                "focus": true,
+                "panel": "dedicated",
+                "clear": true
+            },
+            "problemMatcher": []
+        },
+        {
+            "type": "shell",
+            "label": "Run C++ app (macOS Terminal)",
+            "command": "osascript -e 'tell application \"Terminal\" to activate' -e 'tell application \"Terminal\" to do script \"cd ${workspaceFolder} && ./build/app\"'",
+            "dependsOn": "Build C++ project",
+            "problemMatcher": []
+        },
+        {
+            "type": "cppbuild",
+            "label": "C/C++: clang++ kompiluj aktywny plik",
+            "command": "/usr/bin/clang++",
+            "args": [
+                "-fcolor-diagnostics",
+                "-fansi-escape-codes",
+                "-g",
+                "${file}",
+                "-o",
+                "${fileDirname}/${fileBasenameNoExtension}"
+            ],
+            "options": {
+                "cwd": "${fileDirname}"
+            },
+            "problemMatcher": [
+                "$gcc"
+            ],
+            "group": {
+                "kind": "build",
+                "isDefault": false
+            },
+            "detail": "Zadanie wygenerowane przez debuger."
+        }
+    ],
+    "version": "2.0.0"
+}
