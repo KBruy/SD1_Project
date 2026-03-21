@@ -51,3 +51,14 @@ void ArrayList::resize()
     data = newData; //wskaźnik na tablice wskazuje na nową tablicę
     capacity = newCapacity;
 }
+
+void ArrayList::pushBack(int value)
+{
+    if (size == capacity)
+    {
+        resize();
+    }
+
+    data[size] = value;
+    size++;
+}
