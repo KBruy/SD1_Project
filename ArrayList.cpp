@@ -83,3 +83,24 @@ void ArrayList::pushFront(int value)
     data[0] = value;
     size++;
 }
+
+void ArrayList::insertAt(int index, int value)
+{
+    if (index < 0 || index > size){
+        cout << "Niepoprawny indeks!" << endl;
+        return;
+    }
+
+    if (size == capacity)
+    {
+        resize();
+    }
+
+    for (int i = size; i > index; i--) //przesuwamy elementy w prawo do indexu w którym chcemy dodać wartość
+    {
+        data[i] = data[i-1];
+    }
+
+    data[index] = value;
+    size++;
+}

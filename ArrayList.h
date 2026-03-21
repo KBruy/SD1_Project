@@ -22,6 +22,7 @@ class ArrayList {
         //metody wykonywalne
         void pushBack(int value); //dodawanie elementu na koniec tablicy
         void pushFront(int value); //dodawanie elemntu na początek tablicy (przesuwanie w prawo)
+        void insertAt(int index, int value); //dodawanie zadanej wartości na zadany index tablicy
 
 };
 

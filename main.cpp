@@ -18,6 +18,15 @@ int main() {
 
    lista.pushFront(1);
    lista.print();
+
+   lista.insertAt(2, 99);
+   lista.print();
+
+   lista.insertAt(0, 5);
+   lista.print();
+
+   lista.insertAt(lista.getSize(), 77);
+   lista.print();
    
 
    return 0;
