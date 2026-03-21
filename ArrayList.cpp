@@ -16,22 +16,26 @@ ArrayList::~ArrayList() //destruktor
     delete[] data;
 }
 
-int ArrayList::getSize()
+int ArrayList::getSize() //geter zwracający liczbe elementow taba
 {
     return size;
 }
 
-int ArrayList::getCapacity()
+int ArrayList::getCapacity() //geter zwracający pojemnosc taba
 {
     return capacity;
 }
 
-void ArrayList::print()
+void ArrayList::print() //zwraca zawartość listy
 {
     cout <<"Zawartość listy: ";
     for (int i = 0; i < size; i++){
         cout << data[i] << " ";
     }
+    cout<<endl;
+
+    cout << "Size: " << getSize() << endl;
+    cout << "Capacity: " << getCapacity() << endl;
 
     cout << endl;
 }
@@ -60,5 +64,22 @@ void ArrayList::pushBack(int value)
     }
 
     data[size] = value;
+    size++;
+}
+
+void ArrayList::pushFront(int value)
+{
+    if (size == capacity)
+    {
+        resize();
+    }
+
+    for (int i = size; i > 0; i--)
+    {
+        data[i] = data[i-1];    //dla tab o size 3 -> data[2] przesuwamy do data[3] itd.
+
+    }
+
+    data[0] = value;
     size++;
 }

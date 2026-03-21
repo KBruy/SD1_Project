@@ -13,10 +13,16 @@ class ArrayList {
     public:
         ArrayList();
         ~ArrayList();
+
+        //info metody
         int getSize();  //geter zwracający liczbe elementow taba
         int getCapacity(); //geter zwracający pojemnosc taba
-        void print(); //zwraca zawartość listy
-        void pushBack(int value);
+        void print(); //zwraca zawartość listy, rozmiar i pojemność
+
+        //metody wykonywalne
+        void pushBack(int value); //dodawanie elementu na koniec tablicy
+        void pushFront(int value); //dodawanie elemntu na początek tablicy (przesuwanie w prawo)
+
 };
 
 #endif

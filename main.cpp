@@ -12,14 +12,13 @@ int main() {
    lista.pushBack(40);
 
    lista.print();
-   cout << "Size: " << lista.getSize() << endl;
-   cout << "Capacity: " << lista.getCapacity() << endl;
 
    lista.pushBack(50);
-
    lista.print();
-   cout << "Size: " << lista.getSize() << endl;
-   cout << "Capacity: " << lista.getCapacity() << endl;
+
+   lista.pushFront(1);
+   lista.print();
+   
 
    return 0;
 
