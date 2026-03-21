@@ -1,10 +1,15 @@
 #include <iostream>
+#include "ArrayList.h"
+
+using namespace std;
 
 int main() {
-    int x;
-    std::cout << "Test VS Code + C++ on macOS działa poprawnie.\n";
-    std::cin >> x; 
-    std::cout << "Wprowadzona wartość: " << x << std::endl;
-    return 0;
+   ArrayList lista;
+   cout << "Liczba elemenów: " << lista.getSize() << endl;
+   cout << "Pojemnosc: "<< lista.getCapacity() << endl;
+
+   lista.print();
+
+   return 0;
 
 }

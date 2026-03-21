@@ -1,0 +1,13 @@
+# Build output
+build/
+
+# macOS debug symbols
+*.dSYM/
+
+# Local executables
+main
+*.out
+*.exe
+
+# macOS metadata
+.DS_Store
