@@ -30,6 +30,9 @@ int main() {
 
    lista.removeBack();
    lista.print();
+
+   lista.removeFront();
+   lista.print();
    
 
    return 0;

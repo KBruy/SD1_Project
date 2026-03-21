@@ -120,3 +120,16 @@ void ArrayList::removeBack() //usuwa ostatni element listy
     size--;
 }
 
+void ArrayList::removeFront() //usuwa pierwszy element listy
+{
+    if(size == 0){
+        cout<<"Lista jest pusta!" << endl;
+        return;
+    }
+
+    for (int i = 0; i < size - 1; i++){ //size - 1 żeby nie brać wartości nieistniejącego elementu
+        data[i] = data[i + 1];   //każdy element bierze wartość swojego prawego sąsiada, wartość pierwszego nie jest zapamiętywana
+    }
+
+    size--; //usuwamy ostatni (zdublowany element)
+}
