@@ -133,3 +133,18 @@ void ArrayList::removeFront() //usuwa pierwszy element listy
 
     size--; //usuwamy ostatni (zdublowany element)
 }
+
+void ArrayList::removeAt(int index)
+{
+    if (index < 0 || index >= size)
+    {
+        cout << "Niepoprawny indeks!" << endl;
+        return;
+    }
+
+    for (int i = index; i < size - 1; i++){  //zaczynamy od miejsca które usuwamy
+        data[i] = data[i+1];                     //wszystko na prawo od usuwanego elementu przesuwamy o 1 w lewo
+    }
+
+    size--;
+}

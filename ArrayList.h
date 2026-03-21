@@ -27,7 +27,8 @@ class ArrayList {
         //metody usuwające z tablicy 
         void removeBack(); //usuwa ostatni element z tablicy
         void removeFront(); //usuwa pierwszy element z tablicy (przesuwanie w lewo)
-        
+        void removeAt(int index); //usuwa element z zadanego indexu
+
 
 
 };

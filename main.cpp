@@ -34,7 +34,8 @@ int main() {
    lista.removeFront();
    lista.print();
    
-
+   lista.removeAt(2);
+   lista.print();
    return 0;
 
 }
