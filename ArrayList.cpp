@@ -148,3 +148,31 @@ void ArrayList::removeAt(int index)
 
     size--;
 }
+
+//=============================
+int ArrayList::search(int value)
+{
+    for (int i = 0; i < size; i++)
+    {
+        if (data[i] == value)
+        {
+            return ArrayList::searchResult(i, value);
+        }
+    }
+
+    return ArrayList::searchResult(-1, value);
+}
+
+int ArrayList::searchResult(int index, int value)
+{
+    if (index >= 0)
+    {
+        cout << "Znaleziono wartosc " << value << " na indeksie [" << index << "]" << endl;
+    }
+    else
+    {
+        cout << "Nie znaleziono indeksu dla wartosci " << value << endl;
+    }
+
+    return index;
+}

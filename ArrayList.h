@@ -30,6 +30,9 @@ class ArrayList {
         void removeAt(int index); //usuwa element z zadanego indexu
 
 
+        int search(int value); //szuka zadaną wartość, przy znalezieniu zwraca index, przy jej braku w strukturze zwraca -1
+        int searchResult(int index, int value);
+
 
 };
 

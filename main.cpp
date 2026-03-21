@@ -36,6 +36,10 @@ int main() {
    
    lista.removeAt(2);
    lista.print();
+   
+   lista.search(30);
+   lista.search(1000);
+
    return 0;
 
 }
