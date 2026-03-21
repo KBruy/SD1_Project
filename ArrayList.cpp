@@ -40,6 +40,11 @@ void ArrayList::print() //zwraca zawartość listy
     cout << endl;
 }
 
+bool ArrayList::isEmpty()
+{
+    return size == 0;
+}
+
 //==========================================
 // Metody dodające
 
@@ -113,16 +118,18 @@ void ArrayList::insertAt(int index, int value) //dodawanie zadanej wartości na 
 
 void ArrayList::removeBack() //usuwa ostatni element listy
 {
-    if (size == 0)
+    if (isEmpty())
     {
         cout<< "Lista jest pusta!" << endl;
+        return;
     }
+
     size--;
 }
 
 void ArrayList::removeFront() //usuwa pierwszy element listy
 {
-    if(size == 0){
+    if (isEmpty()){
         cout<<"Lista jest pusta!" << endl;
         return;
     }

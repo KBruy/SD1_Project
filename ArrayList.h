@@ -18,6 +18,7 @@ class ArrayList {
         int getSize();  //geter zwracający liczbe elementow taba
         int getCapacity(); //geter zwracający pojemnosc taba
         void print(); //zwraca zawartość listy, rozmiar i pojemność
+        bool isEmpty(); //zwraca true jeżeli tablica jest pusta
 
         //metody dodające do tablicy
         void pushBack(int value); //dodawanie elementu na koniec tablicy
