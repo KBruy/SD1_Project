@@ -40,6 +40,9 @@ void ArrayList::print() //zwraca zawartość listy
     cout << endl;
 }
 
+//==========================================
+// Metody dodające
+
 void ArrayList::resize()
 {
     int newCapacity = capacity * 2;
@@ -56,7 +59,7 @@ void ArrayList::resize()
     capacity = newCapacity;
 }
 
-void ArrayList::pushBack(int value)
+void ArrayList::pushBack(int value) //dodawanie elementu na koniec tablicy
 {
     if (size == capacity)
     {
@@ -67,7 +70,7 @@ void ArrayList::pushBack(int value)
     size++;
 }
 
-void ArrayList::pushFront(int value)
+void ArrayList::pushFront(int value) //dodawanie elemntu na początek tablicy (przesuwanie w prawo)
 {
     if (size == capacity)
     {
@@ -84,7 +87,7 @@ void ArrayList::pushFront(int value)
     size++;
 }
 
-void ArrayList::insertAt(int index, int value)
+void ArrayList::insertAt(int index, int value) //dodawanie zadanej wartości na zadany index tablicy
 {
     if (index < 0 || index > size){
         cout << "Niepoprawny indeks!" << endl;
@@ -104,3 +107,16 @@ void ArrayList::insertAt(int index, int value)
     data[index] = value;
     size++;
 }
+
+//===================================
+// Metody usuwające
+
+void ArrayList::removeBack() //usuwa ostatni element listy
+{
+    if (size == 0)
+    {
+        cout<< "Lista jest pusta!" << endl;
+    }
+    size--;
+}
+

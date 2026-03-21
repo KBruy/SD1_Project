@@ -27,6 +27,9 @@ int main() {
 
    lista.insertAt(lista.getSize(), 77);
    lista.print();
+
+   lista.removeBack();
+   lista.print();
    
 
    return 0;

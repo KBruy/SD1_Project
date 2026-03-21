@@ -19,10 +19,14 @@ class ArrayList {
         int getCapacity(); //geter zwracający pojemnosc taba
         void print(); //zwraca zawartość listy, rozmiar i pojemność
 
-        //metody wykonywalne
+        //metody dodające do tablicy
         void pushBack(int value); //dodawanie elementu na koniec tablicy
         void pushFront(int value); //dodawanie elemntu na początek tablicy (przesuwanie w prawo)
         void insertAt(int index, int value); //dodawanie zadanej wartości na zadany index tablicy
+
+        //metody usuwające z tablicy 
+        void removeBack(); //usuwa ostatni element z tablicy
+
 
 };
 
