@@ -118,3 +118,27 @@ Seria 10: 11731.2 ns/op
 Sredni czas: 14572.2 ns/op
 ==========================
 
+==========================
+Struktura: ArrayList
+Operacja: removeAt
+Tryb pomiaru: jedno removeAt na kazdej z identycznych kopii, indeks losowy
+Rozmiar poczatkowy: 15000
+Liczba serii: 10
+Seed bazowy: 12345
+Zakres losowania: [0, 16777215]
+Liczba kopii w serii: 100
+
+Seria 1: 13119.2 ns/op
+Seria 2: 10114.6 ns/op
+Seria 3: 8172.5 ns/op
+Seria 4: 7044.58 ns/op
+Seria 5: 6612.91 ns/op
+Seria 6: 7003.75 ns/op
+Seria 7: 5642.08 ns/op
+Seria 8: 5652.92 ns/op
+Seria 9: 5745 ns/op
+Seria 10: 5485 ns/op
+
+Sredni czas: 7459.25 ns/op
+==========================
+
