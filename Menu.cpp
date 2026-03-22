@@ -67,7 +67,7 @@ void Menu::showArrayListMenu()
  cout << "8. Wyszukaj losowa wartosc" << endl;
  cout << "9. Wyswietl liste" << endl;
  cout << "10. Wyczysc strukture" << endl;
- cout << "11. Menu pomiarow";
+ cout << "11. Menu pomiarow" << endl;
  cout << "12. Powrot do menu glownego" << endl;
  cout << "---> ";
 }
@@ -304,7 +304,27 @@ void Menu::handleResearchMenu()
 
         case 2:
         {
-            cout << "not yet" << endl;
+            int size;
+            int seriesCount;
+            string fileName;
+
+            cout << "Podaj rozmiar poczatkowy struktury: ";
+            cin >> size;
+
+            cout << "Podaj liczbe serii: ";
+            cin >> seriesCount;
+
+            cout << "Podaj nazwe pliku txt: ";
+            cin >> fileName;
+
+            if (size < 0 || seriesCount <= 0)
+            {
+                cout << "Niepoprawne dane!" << endl;
+                break;
+            }
+
+            research.measureArrayListPushFront(size, seriesCount, seed,
+                                       minRandomValue, maxRandomValue, fileName);
             break;
         }
 
@@ -340,9 +360,9 @@ void Menu::handleResearchMenu()
         
         case 8:
         {
-            cout << "not yet" << endl;
+            cout << "Powrot do menu tablicy dynamicznej." << endl;
             break;
-        }
+        }          
         
 
         default:

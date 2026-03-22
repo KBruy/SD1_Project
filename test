@@ -1,0 +1,24 @@
+==========================
+Struktura: ArrayList
+Operacja: pushFront
+Tryb pomiaru: jedno pushFront na kazdej z identycznych kopii
+Rozmiar poczatkowy: 15000
+Liczba serii: 10
+Seed bazowy: 12345
+Zakres losowania: [0, 16777215]
+Liczba kopii w serii: 100
+
+Seria 1: 24890.4 ns/op
+Seria 2: 15430.4 ns/op
+Seria 3: 12942.9 ns/op
+Seria 4: 11475.4 ns/op
+Seria 5: 10631.2 ns/op
+Seria 6: 10613.8 ns/op
+Seria 7: 9639.58 ns/op
+Seria 8: 9411.67 ns/op
+Seria 9: 9373.33 ns/op
+Seria 10: 9350 ns/op
+
+Sredni czas: 12375.9 ns/op
+==========================
+
