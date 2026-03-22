@@ -6,6 +6,7 @@
 class Menu
 {
     private:
+    unsigned int seed = 12345;
     ArrayList arrayList; //obiekt tablicy dynamicznej
 
     void showMainMenu(); //metoda pokazywania głównego menu

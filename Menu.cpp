@@ -1,7 +1,13 @@
 #include <iostream>
+#include <cstdlib>
 #include "Menu.h"
 
 using namespace std;
+
+int generateRandomNumber(int minValue, int maxValue)
+{
+    return minValue + rand() % (maxValue - minValue + 1);
+}
 
 void Menu::showMainMenu()
 {
@@ -26,8 +32,7 @@ void Menu::run()
         switch(choice)
         {
             case 1:
-                cout << "Wybrano tablice dynamiczna." << endl;
-                showArrayListMenu();
+                handleArrayListMenu();
                 break;
             case 2:
                 cout << "not yet" << endl;
@@ -51,16 +56,18 @@ void Menu::showArrayListMenu()
 {
  cout << endl;
  cout << "==== Tablica Dynamiczna ====" << endl;
- cout << "1. Dodaj element na koniec" << endl;
- cout << "2. Dodaj element na poczatek" << endl;
- cout << "3. Dodaj element na wybrany indeks" << endl;
- cout << "4. Usun element z konca" << endl;
- cout << "5. Usun element z poczatku" << endl;
- cout << "6. Usun element z wybranego indeksu" << endl;
- cout << "7. Wyszukaj losowa wartosc" << endl;
- cout << "8. Wyswietl liste" << endl;
- cout << "9. Powrot do menu glownego" << endl;
- handleArrayListMenu();
+ cout << "1. Utworz losowa strukute" <<endl;
+ cout << "2. Dodaj element na koniec" << endl;
+ cout << "3. Dodaj element na poczatek" << endl;
+ cout << "4. Dodaj element na wybrany indeks" << endl;
+ cout << "5. Usun element z konca" << endl;
+ cout << "6. Usun element z poczatku" << endl;
+ cout << "7. Usun element z wybranego indeksu" << endl;
+ cout << "8. Wyszukaj losowa wartosc" << endl;
+ cout << "9. Wyswietl liste" << endl;
+ cout << "10. Wyczysc strukture" << endl;
+ cout << "11. Powrot do menu glownego" << endl;
+ cout << "---> ";
 }
 
 void Menu::handleArrayListMenu()
@@ -69,13 +76,41 @@ void Menu::handleArrayListMenu()
 
     do
     {
-        
+        showArrayListMenu();
         cin >> choice;
 
         switch (choice)
         {
             case 1:
-                cout << "Opcja 1" << endl;
+                int count;
+                int minValue;
+                int maxValue;
+
+                cout << "Podaj rozmiar struktury: ";
+                cin >> count;
+
+                cout << "Podaj minimalna wartosc: ";
+                cin >> minValue;
+
+                cout << "Podaj maksymalna wartosc: ";
+                cin >> maxValue;
+
+                if (count < 0 || minValue > maxValue)
+                {
+                    cout << "Niepoprawne dane!" << endl;
+                    break;
+                }
+
+                arrayList.clear();
+                srand(seed);
+
+                for (int i = 0; i < count; i++)
+                {
+                    int value = generateRandomNumber(minValue, maxValue);
+                    arrayList.pushBack(value);
+                }
+
+                cout<< "Utworzona losowa strukture" << endl;
                 break;
 
             case 2:
@@ -103,10 +138,19 @@ void Menu::handleArrayListMenu()
                 break;
 
             case 8:
-                arrayList.print();
+                cout << "Opcja 7" << endl;
                 break;
 
             case 9:
+                arrayList.print();
+                break;
+
+            case 10:
+                arrayList.clear();
+                cout << "Struktura zostala wyczyszczona." <<endl;
+                break;
+
+            case 11:
                 cout << "Powrot do menu glownego." << endl;
                 break;
 
@@ -114,6 +158,6 @@ void Menu::handleArrayListMenu()
                 cout << "Niepoprawna opcja!" << endl;
                 break;
         }
-    } while (choice != 9);
+    } while (choice != 11);
     
 }

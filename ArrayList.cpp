@@ -45,6 +45,22 @@ bool ArrayList::isEmpty()
     return size == 0;
 }
 
+void ArrayList::clear()
+{
+    size = 0;
+}
+
+int ArrayList::getValueAt(int index)
+{
+    if (index < 0 || index >= size)
+    {
+        cout << "Niepoprawny indeks!" << endl;
+        return -1;
+    }
+
+    return data[index];
+}
+
 //==========================================
 // Metody dodające
 
