@@ -39,13 +39,13 @@ void Research::measureArrayListPushBack(int size, int seriesCount, unsigned int 
     }
 
     long long totalTime = 0;
-    const int copiesPerSeries = 10;
+    const int copiesPerSeries = 100;
 
     file << "==========================" << endl;
     file << "Struktura: ArrayList" << endl;
     file << "Operacja: pushBack" << endl;
-    file << "Tryb pomiaru: pushBack z wymuszonym resize()" << endl;
-    file << "Rozmiar poczatkowy zadany przez uzytkownika: " << size << endl;
+    file << "Tryb pomiaru: jedno pushBack na kazdej z identycznych kopii" << endl;
+    file << "Rozmiar poczatkowy: " << size << endl;
     file << "Liczba serii: " << seriesCount << endl;
     file << "Seed bazowy: " << baseSeed << endl;
     file << "Zakres losowania: [" << minValue << ", " << maxValue << "]" << endl;
@@ -63,17 +63,10 @@ void Research::measureArrayListPushBack(int size, int seriesCount, unsigned int 
         {
             lists[j] = new ArrayList();
 
-            // 1. Budujemy bazową strukturę do rozmiaru "size"
+            // przygotowujemy identyczny stan poczatkowy o dokladnie "size" elementach
             prepareArrayList(*lists[j], size, currentSeed, minValue, maxValue);
 
-            // 2. Dopychamy ją do pełnej pojemności, żeby następny pushBack zrobił resize()
-            while (lists[j]->getSize() < lists[j]->getCapacity())
-            {
-                int fillValue = generateRandomNumber(minValue, maxValue);
-                lists[j]->pushBack(fillValue);
-            }
-
-            // 3. Przygotowujemy wartość do jednej mierzonej operacji
+            // przygotowujemy wartosc do jednej mierzonej operacji
             preparedValues[j] = generateRandomNumber(minValue, maxValue);
         }
 
@@ -109,7 +102,7 @@ void Research::measureArrayListPushBack(int size, int seriesCount, unsigned int 
 
     file.close();
 
-    cout << "Zakonczono pushBack z resize()." << endl;
+    cout << "Zakonczono pomiar pushBack." << endl;
     cout << "Sredni czas: " << averageTime << " ns/op" << endl;
     cout << "Wyniki zapisano do pliku: " << fileName << endl;
 }
