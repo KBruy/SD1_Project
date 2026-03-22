@@ -26,6 +26,8 @@ class Research
     void measureArrayListPushFront(int size, int seriesCount, unsigned int baseSeed, int minValue, int maxValue, const std::string& fileName);//wykonuje wiele serii pomiarowych dla pushFront, zapisuje wyniki dla każdej serii do pliku, liczy średnią
     void measureArrayListInsertAt(int size, int seriesCount, unsigned int baseSeed, int minValue, int maxValue, const std::string& fileName); //wykonuje wiele serii pomiarowych dla insertAt, potem podobnie jak wyżej
     void measureArrayListRemoveBack(int size, int seriesCount, unsigned int baseSeed, int minValue, int maxValue, const std::string& fileName); // wykonuje wiele serii dla removeBack, potem podobnie jak wyżej
+    void measureArrayListRemoveFront(int size, int seriesCount, unsigned int baseSeed, int minValue, int maxValue, const std::string& fileName);
+
 };
 
 #endif

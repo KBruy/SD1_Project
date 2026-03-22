@@ -94,3 +94,27 @@ Seria 10: 1.66 ns/op
 Sredni czas: 3.249 ns/op
 ==========================
 
+==========================
+Struktura: ArrayList
+Operacja: removeFront
+Tryb pomiaru: jedno removeFront na kazdej z identycznych kopii
+Rozmiar poczatkowy: 15000
+Liczba serii: 10
+Seed bazowy: 12345
+Zakres losowania: [0, 16777215]
+Liczba kopii w serii: 100
+
+Seria 1: 19041.2 ns/op
+Seria 2: 21007.9 ns/op
+Seria 3: 17172.9 ns/op
+Seria 4: 14945.4 ns/op
+Seria 5: 13603.8 ns/op
+Seria 6: 13097.1 ns/op
+Seria 7: 11832.5 ns/op
+Seria 8: 11832.9 ns/op
+Seria 9: 11456.7 ns/op
+Seria 10: 11731.2 ns/op
+
+Sredni czas: 14572.2 ns/op
+==========================
+

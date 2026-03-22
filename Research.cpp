@@ -276,6 +276,8 @@ void Research::measureArrayListInsertAt(int size, int seriesCount, unsigned int 
     cout << "Wyniki zapisano do pliku: " << fileName << endl;
    }
 
+   //RemoveBack
+
    void Research::measureArrayListRemoveBack(int size, int seriesCount, unsigned int baseSeed,
                                           int minValue, int maxValue, const string& fileName)
 {
@@ -329,6 +331,65 @@ void Research::measureArrayListInsertAt(int size, int seriesCount, unsigned int 
     file.close();
 
     cout << "Zakonczono pomiar removeBack." << endl;
+    cout << "Sredni czas: " << averageTime << " ns/op" << endl;
+    cout << "Wyniki zapisano do pliku: " << fileName << endl;
+}
+
+// RemoveFront
+
+void Research::measureArrayListRemoveFront(int size, int seriesCount, unsigned int baseSeed,
+                                           int minValue, int maxValue, const string& fileName)
+{
+    if (size <= 0 || seriesCount <= 0 || minValue > maxValue)
+    {
+        cout << "Niepoprawne parametry pomiaru!" << endl;
+        return;
+    }
+
+    ofstream file(fileName, ios::app);
+    if (!file.is_open())
+    {
+        cout << "Nie udalo sie otworzyc pliku!" << endl;
+        return;
+    }
+
+    long long totalTime = 0;
+    const int copiesPerSeries = 100;
+
+    writeReportHeader(file, "removeFront",
+                      "jedno removeFront na kazdej z identycznych kopii",
+                      size, seriesCount, baseSeed, minValue, maxValue, copiesPerSeries);
+
+    for (int i = 0; i < seriesCount; i++)
+    {
+        unsigned int currentSeed = baseSeed + i;
+
+        ArrayList** lists = createArrayListCopies(copiesPerSeries, size, currentSeed, minValue, maxValue);
+
+        auto start = chrono::steady_clock::now();
+
+        for (int j = 0; j < copiesPerSeries; j++)
+        {
+            lists[j]->removeFront();
+        }
+
+        auto stop = chrono::steady_clock::now();
+
+        auto duration = chrono::duration_cast<chrono::nanoseconds>(stop - start).count();
+        double oneOperationTime = static_cast<double>(duration) / copiesPerSeries;
+        totalTime += duration;
+
+        file << "Seria " << i + 1 << ": " << oneOperationTime << " ns/op" << endl;
+
+        deleteArrayListCopies(lists, copiesPerSeries);
+    }
+
+    double averageTime = static_cast<double>(totalTime) / (seriesCount * copiesPerSeries);
+
+    writeReportFooter(file, averageTime);
+    file.close();
+
+    cout << "Zakonczono pomiar removeFront." << endl;
     cout << "Sredni czas: " << averageTime << " ns/op" << endl;
     cout << "Wyniki zapisano do pliku: " << fileName << endl;
 }
