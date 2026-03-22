@@ -31,7 +31,7 @@ class ArrayList {
         //metody usuwające z tablicy 
         void removeBack(); //usuwa ostatni element z tablicy
         void removeFront(); //usuwa pierwszy element z tablicy (przesuwanie w lewo)
-        void removeAt(int index); //usuwa element z zadanego indexu
+        void removeAt(int index); //usuwa element z losowego indexu
 
 
         int search(int value); //szuka zadaną wartość, przy znalezieniu zwraca index, przy jej braku w strukturze zwraca -1

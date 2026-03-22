@@ -330,13 +330,51 @@ void Menu::handleResearchMenu()
 
         case 3:
         {
-            cout << "not yet" << endl;
+            int size;
+            int seriesCount;
+            string fileName;
+
+            cout << "Podaj rozmiar poczatkowy struktury: ";
+            cin >> size;
+
+            cout << "Podaj liczbe serii: ";
+            cin >> seriesCount;
+
+            cout << "Podaj nazwe pliku txt: ";
+            cin >> fileName;
+
+            if (size < 0 || seriesCount <= 0)
+            {
+                cout << "Niepoprawne dane!" << endl;
+                break;
+            }
+
+            research.measureArrayListInsertAt(size, seriesCount, seed, minRandomValue, maxRandomValue, fileName);
             break;
         }
         
         case 4:
         {
-            cout << "not yet" << endl;
+            int size;
+            int seriesCount;
+            string fileName;
+
+            cout << "Podaj rozmiar poczatkowy struktury: ";
+            cin >> size;
+
+            cout << "Podaj liczbe serii: ";
+            cin >> seriesCount;
+
+            cout << "Podaj nazwe pliku txt: ";
+            cin >> fileName;
+
+            if (size <= 0 || seriesCount <= 0)
+            {
+                cout << "Niepoprawne dane!" << endl;
+                break;
+            }
+
+            research.measureArrayListRemoveBack(size, seriesCount, seed, minRandomValue, maxRandomValue, fileName);
             break;
         }
         

@@ -1,5 +1,29 @@
 ==========================
 Struktura: ArrayList
+Operacja: pushBack
+Tryb pomiaru: jedno pushBack na kazdej z identycznych kopii
+Rozmiar poczatkowy: 15000
+Liczba serii: 10
+Seed bazowy: 12345
+Zakres losowania: [0, 16777215]
+Liczba kopii w serii: 100
+
+Seria 1: 32.08 ns/op
+Seria 2: 11.25 ns/op
+Seria 3: 5.83 ns/op
+Seria 4: 3.33 ns/op
+Seria 5: 3.75 ns/op
+Seria 6: 4.58 ns/op
+Seria 7: 3.33 ns/op
+Seria 8: 4.17 ns/op
+Seria 9: 2.91 ns/op
+Seria 10: 2.92 ns/op
+
+Sredni czas: 7.415 ns/op
+==========================
+
+==========================
+Struktura: ArrayList
 Operacja: pushFront
 Tryb pomiaru: jedno pushFront na kazdej z identycznych kopii
 Rozmiar poczatkowy: 15000
@@ -8,17 +32,65 @@ Seed bazowy: 12345
 Zakres losowania: [0, 16777215]
 Liczba kopii w serii: 100
 
-Seria 1: 24890.4 ns/op
-Seria 2: 15430.4 ns/op
-Seria 3: 12942.9 ns/op
-Seria 4: 11475.4 ns/op
-Seria 5: 10631.2 ns/op
-Seria 6: 10613.8 ns/op
-Seria 7: 9639.58 ns/op
-Seria 8: 9411.67 ns/op
-Seria 9: 9373.33 ns/op
-Seria 10: 9350 ns/op
+Seria 1: 23059.2 ns/op
+Seria 2: 15568.8 ns/op
+Seria 3: 12966.7 ns/op
+Seria 4: 11525.4 ns/op
+Seria 5: 10645.4 ns/op
+Seria 6: 9707.08 ns/op
+Seria 7: 9648.33 ns/op
+Seria 8: 9438.75 ns/op
+Seria 9: 9241.67 ns/op
+Seria 10: 9309.58 ns/op
 
-Sredni czas: 12375.9 ns/op
+Sredni czas: 12111.1 ns/op
+==========================
+
+==========================
+Struktura: ArrayList
+Operacja: insertAt
+Tryb pomiaru: jedno insertAt na kazdej z identycznych kopii, indeks losowy
+Rozmiar poczatkowy: 15000
+Liczba serii: 10
+Seed bazowy: 12345
+Zakres losowania: [0, 16777215]
+Liczba kopii w serii: 100
+
+Seria 1: 12685 ns/op
+Seria 2: 10088.3 ns/op
+Seria 3: 7977.08 ns/op
+Seria 4: 6800 ns/op
+Seria 5: 6413.75 ns/op
+Seria 6: 6079.17 ns/op
+Seria 7: 5570.83 ns/op
+Seria 8: 5299.58 ns/op
+Seria 9: 4600.83 ns/op
+Seria 10: 4921.25 ns/op
+
+Sredni czas: 7043.58 ns/op
+==========================
+
+==========================
+Struktura: ArrayList
+Operacja: removeBack
+Tryb pomiaru: jedno removeBack na kazdej z identycznych kopii
+Rozmiar poczatkowy: 15000
+Liczba serii: 10
+Seed bazowy: 12345
+Zakres losowania: [0, 16777215]
+Liczba kopii w serii: 100
+
+Seria 1: 11.66 ns/op
+Seria 2: 3.34 ns/op
+Seria 3: 4.16 ns/op
+Seria 4: 2.5 ns/op
+Seria 5: 2.09 ns/op
+Seria 6: 1.67 ns/op
+Seria 7: 1.67 ns/op
+Seria 8: 1.66 ns/op
+Seria 9: 2.08 ns/op
+Seria 10: 1.66 ns/op
+
+Sredni czas: 3.249 ns/op
 ==========================
 
