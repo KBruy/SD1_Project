@@ -88,10 +88,10 @@ void Menu::handleArrayListMenu()
                 cout << "Podaj rozmiar struktury: ";
                 cin >> count;
 
-                cout << "Podaj minimalna wartosc (standardowo 1): ";
+                cout << "Podaj minimalna wartosc (standardowo 0): ";
                 cin >> minRandomValue;
 
-                cout << "Podaj maksymalna wartosc (standardowo 1000): ";
+                cout << "Podaj maksymalna wartosc (standardowo 16777215): ";
                 cin >> maxRandomValue;
 
                 if (count < 0 || minRandomValue > maxRandomValue)
