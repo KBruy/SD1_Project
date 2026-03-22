@@ -108,13 +108,21 @@ void Menu::handleArrayListMenu()
                     int value = generateRandomNumber(minRandomValue, maxRandomValue);
                     arrayList.pushBack(value);
                 }
-
+                
+                randomStructureCreated = true;
                 cout<< "Utworzona losowa strukture" << endl;
                 break;
             }
 
             case 2:
             {
+
+                if (!randomStructureCreated)
+                    {
+                    cout << "Najpierw utworz losowa strukture!" << endl;
+                    break;
+                }
+
                 int value = generateRandomNumber(minRandomValue, maxRandomValue);
                 arrayList.pushBack(value);
 
@@ -124,6 +132,12 @@ void Menu::handleArrayListMenu()
 
             case 3:
             {
+                if (!randomStructureCreated)
+                    {
+                    cout << "Najpierw utworz losowa strukture!" << endl;
+                    break;
+                }
+                
                 int value = generateRandomNumber(minRandomValue, maxRandomValue);
                 arrayList.pushFront(value);
 
@@ -133,6 +147,13 @@ void Menu::handleArrayListMenu()
 
             case 4:
             {
+
+                if (!randomStructureCreated)
+                    {
+                    cout << "Najpierw utworz losowa strukture!" << endl;
+                    break;
+                }
+
                 int value = generateRandomNumber(minRandomValue, maxRandomValue);
                 int index = generateRandomNumber(0, arrayList.getSize());
 
@@ -155,6 +176,13 @@ void Menu::handleArrayListMenu()
 
             case 7:
             {
+
+                if (!randomStructureCreated)
+                    {
+                    cout << "Najpierw utworz losowa strukture!" << endl;
+                    break;
+                }
+
                 if (arrayList.isEmpty()){
                     cout << "Lista jest pusta!" << endl;
                     break;
@@ -169,6 +197,13 @@ void Menu::handleArrayListMenu()
 
             case 8:
             {
+
+                if (!randomStructureCreated)
+                    {
+                    cout << "Najpierw utworz losowa strukture!" << endl;
+                    break;
+                }
+
                 if (arrayList.isEmpty())
                 {
                     cout << "Lista jest pusta!" << endl;
@@ -192,6 +227,7 @@ void Menu::handleArrayListMenu()
 
             case 10:
                 arrayList.clear();
+                randomStructureCreated = false;
                 cout << "Struktura zostala wyczyszczona." <<endl;
                 break;
 

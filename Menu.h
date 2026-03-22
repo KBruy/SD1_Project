@@ -11,6 +11,10 @@ class Menu
     int maxRandomValue = 16777215;
     ArrayList arrayList; //obiekt tablicy dynamicznej
 
+    bool randomStructureCreated = false; // flaga, dla false - nie utworzono jeszcze sensownej losowej struktury
+                                        // dla true - struktura została już przygotowana przez opcję tworzenia losowej struktury
+                                        // zabezpieczenie przed operacjami na niechcianych strukturach
+
     void showMainMenu(); //metoda pokazywania głównego menu
     void showArrayListMenu(); //metoda pokazywania opcji dla tablicy dynamicznej
 
