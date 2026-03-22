@@ -1,6 +1,7 @@
 #include <iostream>
 #include <cstdlib>
 #include "Menu.h"
+#include <string>
 
 using namespace std;
 
@@ -66,7 +67,8 @@ void Menu::showArrayListMenu()
  cout << "8. Wyszukaj losowa wartosc" << endl;
  cout << "9. Wyswietl liste" << endl;
  cout << "10. Wyczysc strukture" << endl;
- cout << "11. Powrot do menu glownego" << endl;
+ cout << "11. Menu pomiarow";
+ cout << "12. Powrot do menu glownego" << endl;
  cout << "---> ";
 }
 
@@ -232,6 +234,12 @@ void Menu::handleArrayListMenu()
                 break;
 
             case 11:
+            {
+                handleResearchMenu();
+                break;
+            }
+
+            case 12:
                 cout << "Powrot do menu glownego." << endl;
                 break;
 
@@ -239,6 +247,108 @@ void Menu::handleArrayListMenu()
                 cout << "Niepoprawna opcja!" << endl;
                 break;
         }
-    } while (choice != 11);
+    } while (choice != 12);
+    
+}
+
+void Menu::showResearchMenu()
+{
+    cout << endl;
+    cout << "==== Menu Pomiarow: ArrayList ====" << endl;
+    cout << "1. Zmierz pushBack" << endl;
+    cout << "2. Zmierz pushFront" << endl;
+    cout << "3. Zmierz insertAt" << endl;
+    cout << "4. Zmierz removeBack" << endl;
+    cout << "5. Zmierz removeFront" << endl;
+    cout << "6. Zmierz removeAt" << endl;
+    cout << "7. Zmierz search" << endl;
+    cout << "8. Powrot do menu tablicy dynamicznej" << endl;
+    cout << "----> ";
+}
+
+void Menu::handleResearchMenu()
+{
+    int choice;
+
+    do
+    {
+        showResearchMenu();
+        cin >> choice;
+
+        switch (choice)
+        {
+        case 1:
+        {
+            int size;
+            int seriesCount;
+            string fileName;
+
+            cout << "Podaj rozmiar poczatkowoy struktury: ";
+            cin >> size;
+
+            cout << "Podaj liczbe serii: ";
+            cin >> seriesCount;
+
+            cout << "Podaj nazwe pliku txt: ";
+            cin >> fileName;
+
+            if (size < 0 || seriesCount <= 0)
+            {
+                cout << "Niepoprawne dane!" << endl;
+                break;
+            }
+
+            research.measureArrayListPushBack(size, seriesCount, seed, minRandomValue, maxRandomValue, fileName);
+            break;
+        }
+
+        case 2:
+        {
+            cout << "not yet" << endl;
+            break;
+        }
+
+        case 3:
+        {
+            cout << "not yet" << endl;
+            break;
+        }
+        
+        case 4:
+        {
+            cout << "not yet" << endl;
+            break;
+        }
+        
+        case 5:
+        {
+            cout << "not yet" << endl;
+            break;
+        }
+        
+        case 6:
+        {
+            cout << "not yet" << endl;
+            break;
+        }
+        
+        case 7:
+        {
+            cout << "not yet" << endl;
+            break;
+        }
+        
+        case 8:
+        {
+            cout << "not yet" << endl;
+            break;
+        }
+        
+
+        default:
+        cout << "Niepoprawna opcja!" << endl;
+            break;
+        }
+    } while (choice != 8);
     
 }

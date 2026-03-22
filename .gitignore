@@ -11,3 +11,6 @@ main
 
 # macOS metadata
 .DS_Store
+
+# Research outputs
+*.txt
