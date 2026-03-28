@@ -28,6 +28,7 @@ class Research
     void measureArrayListRemoveBack(int size, int seriesCount, unsigned int baseSeed, int minValue, int maxValue, const std::string& fileName); // wykonuje wiele serii dla removeBack, potem podobnie jak wyżej
     void measureArrayListRemoveFront(int size, int seriesCount, unsigned int baseSeed, int minValue, int maxValue, const std::string& fileName);
     void measureArrayListRemoveAt(int size, int seriesCount, unsigned int baseSeed, int minValue, int maxValue, const std::string& fileName);
+    void measureArrayListSearch(int size, int seriesCount, unsigned int baseSeed, int minValue, int maxValue, const std::string& fileName);
 
 };
 

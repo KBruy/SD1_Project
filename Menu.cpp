@@ -431,7 +431,26 @@ void Menu::handleResearchMenu()
         
         case 7:
         {
-            cout << "not yet" << endl;
+            int size;
+            int seriesCount;
+            string fileName;
+
+            cout << "Podaj rozmiar poczatkowy struktury: ";
+            cin >> size;
+
+            cout <<"Podaj liczbe serii: ";
+            cin >> seriesCount;
+
+            cout <<"Podaj nazwe pliku txt: ";
+            cin >> fileName;
+
+            if (size <= 0 || seriesCount <=0)
+            {
+                cout << "Niepoprawne dane!" << endl;
+                break;
+            }
+
+            research.measureArrayListSearch(size, seriesCount, seed, minRandomValue, maxRandomValue, fileName);
             break;
         }
         

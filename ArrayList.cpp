@@ -199,3 +199,16 @@ int ArrayList::searchResult(int index, int value)
 
     return index;
 }
+
+int ArrayList::searchRaw(int value)
+{
+    for (int i = 0; i < size; i++)
+    {
+        if (data[i] == value)
+        {
+            return i;
+        }
+    }
+
+    return -1;
+}

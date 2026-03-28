@@ -36,6 +36,9 @@ class ArrayList {
 
         int search(int value); //szuka zadaną wartość, przy znalezieniu zwraca index, przy jej braku w strukturze zwraca -1
         int searchResult(int index, int value);
+        int searchRaw(int value); // metoda szukająca wartości w badaniach (nie ma komuniaktów itp)
+
+
 
 
 };
