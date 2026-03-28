@@ -6,9 +6,57 @@
 
 using namespace std;
 
+namespace
+{
+    // Pomiar obejmuje wyłącznie jedną badaną operację wykonaną na każdej kopii.
+    template <typename Operation>
+    long long measureOperationOnCopies(ArrayList** lists, int copiesPerSeries, Operation operation)
+    {
+        auto start = chrono::steady_clock::now();
+
+        for (int i = 0; i < copiesPerSeries; i++)
+        {
+            operation(*lists[i], i);
+        }
+
+        auto stop = chrono::steady_clock::now();
+        return chrono::duration_cast<chrono::nanoseconds>(stop - start).count();
+    }
+}
+
 int Research::generateRandomNumber(int minValue, int maxValue)
 {
     return minValue + rand() % (maxValue - minValue + 1);
+}
+
+bool Research::validateMeasurementParameters(int size, int seriesCount, int minValue, int maxValue, bool requireNonEmptySize)
+{
+    if (seriesCount <= 0 || minValue > maxValue)
+    {
+        cout << "Niepoprawne parametry pomiaru!" << endl;
+        return false;
+    }
+
+    if (requireNonEmptySize ? size <= 0 : size < 0)
+    {
+        cout << "Niepoprawne parametry pomiaru!" << endl;
+        return false;
+    }
+
+    return true;
+}
+
+bool Research::openReportFile(ofstream& file, const string& fileName)
+{
+    file.open(fileName, ios::app);
+
+    if (!file.is_open())
+    {
+        cout << "Nie udalo sie otworzyc pliku!" << endl;
+        return false;
+    }
+
+    return true;
 }
 
 void Research::prepareArrayList(ArrayList& list, int size, unsigned int seed, int minValue, int maxValue)
@@ -16,11 +64,12 @@ void Research::prepareArrayList(ArrayList& list, int size, unsigned int seed, in
     list.clear();
     srand(seed);
 
-    for (int i = 0; i < size; i++){
+    for (int i = 0; i < size; i++)
+    {
         int value = generateRandomNumber(minValue, maxValue);
         list.pushBack(value);
     }
-} //czyścimy strukturę przed nową serią aby startować od świeżo przygotowanej tablicy
+}
 
 //========================================================================================================================
 // Formatka do pisania raportów
@@ -48,6 +97,18 @@ void Research::writeReportFooter(ofstream& file, double averageTime)
     file << "==========================" << endl << endl;
 }
 
+void Research::writeSeriesResult(ofstream& file, int seriesNumber, double oneOperationTime)
+{
+    file << "Seria " << seriesNumber << ": " << oneOperationTime << " ns/op" << endl;
+}
+
+void Research::printMeasurementSummary(const string& operationName, double averageTime, const string& fileName)
+{
+    cout << "Zakonczono pomiar " << operationName << "." << endl;
+    cout << "Sredni czas: " << averageTime << " ns/op" << endl;
+    cout << "Wyniki zapisano do pliku: " << fileName << endl;
+}
+
 ArrayList** Research::createArrayListCopies(int copiesPerSeries, int size, unsigned int seed,
                                             int minValue, int maxValue)
 {
@@ -56,6 +117,7 @@ ArrayList** Research::createArrayListCopies(int copiesPerSeries, int size, unsig
     for (int j = 0; j < copiesPerSeries; j++)
     {
         lists[j] = new ArrayList();
+        // Ta sama seria ma startować z identycznego stanu początkowego dla każdej kopii.
         prepareArrayList(*lists[j], size, seed, minValue, maxValue);
     }
 
@@ -84,6 +146,71 @@ int* Research::prepareRandomValues(int count, int minValue, int maxValue)
     return values;
 }
 
+int* Research::prepareRandomIndexes(int count, int minIndex, int maxIndex)
+{
+    int* indexes = new int[count];
+
+    for (int i = 0; i < count; i++)
+    {
+        indexes[i] = generateRandomNumber(minIndex, maxIndex);
+    }
+
+    return indexes;
+}
+
+int* Research::prepareSearchValues(ArrayList** lists, int copiesPerSeries, int size)
+{
+    int* values = new int[copiesPerSeries];
+
+    // Losujemy indeks i pobieramy wartość z kopii, więc szukany element na pewno istnieje.
+    for (int i = 0; i < copiesPerSeries; i++)
+    {
+        int randomIndex = generateRandomNumber(0, size - 1);
+        values[i] = lists[i]->getValueAt(randomIndex);
+    }
+
+    return values;
+}
+
+void Research::runArrayListMeasurement(int size, int seriesCount, unsigned int baseSeed,
+                                       int minValue, int maxValue, const string& fileName,
+                                       const string& operationName, const string& measurementMode,
+                                       bool requireNonEmptySize,
+                                       const function<long long(unsigned int currentSeed)>& measureSeries)
+{
+    if (!validateMeasurementParameters(size, seriesCount, minValue, maxValue, requireNonEmptySize))
+    {
+        return;
+    }
+
+    ofstream file;
+    if (!openReportFile(file, fileName))
+    {
+        return;
+    }
+
+    long long totalTime = 0;
+
+    writeReportHeader(file, operationName, measurementMode, size, seriesCount, baseSeed,
+                      minValue, maxValue, COPIES_PER_SERIES);
+
+    for (int i = 0; i < seriesCount; i++)
+    {
+        unsigned int currentSeed = baseSeed + i;
+        long long duration = measureSeries(currentSeed);
+        double oneOperationTime = static_cast<double>(duration) / COPIES_PER_SERIES;
+
+        totalTime += duration;
+        writeSeriesResult(file, i + 1, oneOperationTime);
+    }
+
+    double averageTime = static_cast<double>(totalTime) / (seriesCount * COPIES_PER_SERIES);
+
+    writeReportFooter(file, averageTime);
+    file.close();
+    printMeasurementSummary(operationName, averageTime, fileName);
+}
+
 //=========================================================================================================
 //=========================================================================================================
 // Pomiary operacji
@@ -93,60 +220,26 @@ int* Research::prepareRandomValues(int count, int minValue, int maxValue)
 void Research::measureArrayListPushBack(int size, int seriesCount, unsigned int baseSeed,
                                         int minValue, int maxValue, const string& fileName)
 {
-    if (size < 0 || seriesCount <= 0 || minValue > maxValue)
-    {
-        cout << "Niepoprawne parametry pomiaru!" << endl;
-        return;
-    }
+    runArrayListMeasurement(size, seriesCount, baseSeed, minValue, maxValue, fileName,
+                            "pushBack", "jedno pushBack na kazdej z identycznych kopii", false,
+                            [this, size, minValue, maxValue](unsigned int currentSeed)
+                            {
+                                ArrayList** lists = createArrayListCopies(COPIES_PER_SERIES, size, currentSeed, minValue, maxValue);
+                                int* preparedValues = prepareRandomValues(COPIES_PER_SERIES, minValue, maxValue);
 
-    ofstream file(fileName, ios::app);
-    if (!file.is_open())
-    {
-        cout << "Nie udalo sie otworzyc pliku!" << endl;
-        return;
-    }
+                                long long duration = measureOperationOnCopies(
+                                    lists,
+                                    COPIES_PER_SERIES,
+                                    [preparedValues](ArrayList& list, int copyIndex)
+                                    {
+                                        list.pushBack(preparedValues[copyIndex]);
+                                    });
 
-    long long totalTime = 0;
-    const int copiesPerSeries = 100;
+                                deleteArrayListCopies(lists, COPIES_PER_SERIES);
+                                delete[] preparedValues;
 
-    writeReportHeader(file, "pushBack",
-                      "jedno pushBack na kazdej z identycznych kopii",
-                      size, seriesCount, baseSeed, minValue, maxValue, copiesPerSeries);
-
-    for (int i = 0; i < seriesCount; i++)
-    {
-        unsigned int currentSeed = baseSeed + i;
-
-        ArrayList** lists = createArrayListCopies(copiesPerSeries, size, currentSeed, minValue, maxValue);
-        int* preparedValues = prepareRandomValues(copiesPerSeries, minValue, maxValue);
-
-        auto start = chrono::steady_clock::now();
-
-        for (int j = 0; j < copiesPerSeries; j++)
-        {
-            lists[j]->pushBack(preparedValues[j]);
-        }
-
-        auto stop = chrono::steady_clock::now();
-
-        auto duration = chrono::duration_cast<chrono::nanoseconds>(stop - start).count();
-        double oneOperationTime = static_cast<double>(duration) / copiesPerSeries;
-        totalTime += duration;
-
-        file << "Seria " << i + 1 << ": " << oneOperationTime << " ns/op" << endl;
-
-        deleteArrayListCopies(lists, copiesPerSeries);
-        delete[] preparedValues;
-    }
-
-    double averageTime = static_cast<double>(totalTime) / (seriesCount * copiesPerSeries);
-
-    writeReportFooter(file, averageTime);
-    file.close();
-
-    cout << "Zakonczono pomiar pushBack." << endl;
-    cout << "Sredni czas: " << averageTime << " ns/op" << endl;
-    cout << "Wyniki zapisano do pliku: " << fileName << endl;
+                                return duration;
+                            });
 }
 
 // PushFront
@@ -154,186 +247,80 @@ void Research::measureArrayListPushBack(int size, int seriesCount, unsigned int 
 void Research::measureArrayListPushFront(int size, int seriesCount, unsigned int baseSeed,
                                          int minValue, int maxValue, const string& fileName)
 {
-    if (size < 0 || seriesCount <= 0 || minValue > maxValue)
-    {
-        cout << "Niepoprawne parametry pomiaru!" << endl;
-        return;
-    }
+    runArrayListMeasurement(size, seriesCount, baseSeed, minValue, maxValue, fileName,
+                            "pushFront", "jedno pushFront na kazdej z identycznych kopii", false,
+                            [this, size, minValue, maxValue](unsigned int currentSeed)
+                            {
+                                ArrayList** lists = createArrayListCopies(COPIES_PER_SERIES, size, currentSeed, minValue, maxValue);
+                                int* preparedValues = prepareRandomValues(COPIES_PER_SERIES, minValue, maxValue);
 
-    ofstream file(fileName, ios::app);
-    if (!file.is_open())
-    {
-        cout << "Nie udalo sie otworzyc pliku!" << endl;
-        return;
-    }
+                                long long duration = measureOperationOnCopies(
+                                    lists,
+                                    COPIES_PER_SERIES,
+                                    [preparedValues](ArrayList& list, int copyIndex)
+                                    {
+                                        list.pushFront(preparedValues[copyIndex]);
+                                    });
 
-    long long totalTime = 0;
-    const int copiesPerSeries = 100;
+                                deleteArrayListCopies(lists, COPIES_PER_SERIES);
+                                delete[] preparedValues;
 
-    writeReportHeader(file, "pushFront",
-                      "jedno pushFront na kazdej z identycznych kopii",
-                      size, seriesCount, baseSeed, minValue, maxValue, copiesPerSeries);
-
-    for (int i = 0; i < seriesCount; i++)
-    {
-        unsigned int currentSeed = baseSeed + i;
-
-        ArrayList** lists = createArrayListCopies(copiesPerSeries, size, currentSeed, minValue, maxValue);
-        int* preparedValues = prepareRandomValues(copiesPerSeries, minValue, maxValue);
-
-        auto start = chrono::steady_clock::now();
-
-        for (int j = 0; j < copiesPerSeries; j++)
-        {
-            lists[j]->pushFront(preparedValues[j]);
-        }
-
-        auto stop = chrono::steady_clock::now();
-
-        auto duration = chrono::duration_cast<chrono::nanoseconds>(stop - start).count();
-        double oneOperationTime = static_cast<double>(duration) / copiesPerSeries;
-        totalTime += duration;
-
-        file << "Seria " << i + 1 << ": " << oneOperationTime << " ns/op" << endl;
-
-        deleteArrayListCopies(lists, copiesPerSeries);
-        delete[] preparedValues;
-    }
-
-    double averageTime = static_cast<double>(totalTime) / (seriesCount * copiesPerSeries);
-
-    writeReportFooter(file, averageTime);
-    file.close();
-
-    cout << "Zakonczono pomiar pushFront." << endl;
-    cout << "Sredni czas: " << averageTime << " ns/op" << endl;
-    cout << "Wyniki zapisano do pliku: " << fileName << endl;
+                                return duration;
+                            });
 }
 
 // InsertAt
 
-void Research::measureArrayListInsertAt(int size, int seriesCount, unsigned int baseSeed, int minValue, int maxValue, const string& fileName)
+void Research::measureArrayListInsertAt(int size, int seriesCount, unsigned int baseSeed,
+                                        int minValue, int maxValue, const string& fileName)
 {
-    if (size < 0 || seriesCount <= 0 || minValue > maxValue)
-    {
-        cout << "Niepoprawne parametry pomiaru! " << endl;
-        return;
-    }
+    runArrayListMeasurement(size, seriesCount, baseSeed, minValue, maxValue, fileName,
+                            "insertAt", "jedno insertAt na kazdej z identycznych kopii, indeks losowy", false,
+                            [this, size, minValue, maxValue](unsigned int currentSeed)
+                            {
+                                ArrayList** lists = createArrayListCopies(COPIES_PER_SERIES, size, currentSeed, minValue, maxValue);
+                                int* preparedValues = prepareRandomValues(COPIES_PER_SERIES, minValue, maxValue);
+                                int* preparedIndexes = prepareRandomIndexes(COPIES_PER_SERIES, 0, size);
 
-    ofstream file(fileName, ios::app);
-    if (!file.is_open())
-    {
-        cout << "Nie udalo sie otworzyc pliku" << endl;
-        return;
-    }
+                                long long duration = measureOperationOnCopies(
+                                    lists,
+                                    COPIES_PER_SERIES,
+                                    [preparedIndexes, preparedValues](ArrayList& list, int copyIndex)
+                                    {
+                                        list.insertAt(preparedIndexes[copyIndex], preparedValues[copyIndex]);
+                                    });
 
-    long long totalTime = 0;
-    const int copiesPerSeries = 100;
+                                deleteArrayListCopies(lists, COPIES_PER_SERIES);
+                                delete[] preparedValues;
+                                delete[] preparedIndexes;
 
-    writeReportHeader(file, "insertAt",
-                      "jedno insertAt na kazdej z identycznych kopii, indeks losowy",
-                      size, seriesCount, baseSeed, minValue, maxValue, copiesPerSeries);
+                                return duration;
+                            });
+}
 
-    for (int i = 0; i < seriesCount; i++)
-    {
-        unsigned int currentSeed = baseSeed + i;
+//RemoveBack
 
-        ArrayList** lists = createArrayListCopies(copiesPerSeries, size, currentSeed, minValue, maxValue);
-        int* preparedValues = prepareRandomValues(copiesPerSeries, minValue, maxValue);
-        int* preparedIndexes = new int[copiesPerSeries];
-
-        for (int j = 0; j < copiesPerSeries; j++)
-        {
-            preparedIndexes[j] = generateRandomNumber(0, size);
-        }
-
-        auto start = chrono::steady_clock::now();
-
-        for (int j = 0; j < copiesPerSeries; j++)
-        {
-            lists[j]->insertAt(preparedIndexes[j], preparedValues[j]);
-        }
-
-        auto stop = chrono::steady_clock::now();
-
-        auto duration = chrono::duration_cast<chrono::nanoseconds>(stop - start).count();
-        double oneOperationTime = static_cast<double>(duration) / copiesPerSeries;
-        totalTime += duration;
-
-        file << "Seria " << i + 1 << ": " << oneOperationTime << " ns/op" << endl;
-
-        deleteArrayListCopies(lists, copiesPerSeries);
-        delete[] preparedValues;
-        delete[] preparedIndexes;
-    }
-
-    double averageTime = static_cast<double>(totalTime) / (seriesCount * copiesPerSeries);
-
-    writeReportFooter(file, averageTime);
-    file.close();
-
-    cout << "Zakonczono pomiar insertAt." << endl;
-    cout << "Sredni czas: " << averageTime << " ns/op" << endl;
-    cout << "Wyniki zapisano do pliku: " << fileName << endl;
-   }
-
-   //RemoveBack
-
-   void Research::measureArrayListRemoveBack(int size, int seriesCount, unsigned int baseSeed,
+void Research::measureArrayListRemoveBack(int size, int seriesCount, unsigned int baseSeed,
                                           int minValue, int maxValue, const string& fileName)
 {
-    if (size <= 0 || seriesCount <= 0 || minValue > maxValue)
-    {
-        cout << "Niepoprawne parametry pomiaru!" << endl;
-        return;
-    }
+    runArrayListMeasurement(size, seriesCount, baseSeed, minValue, maxValue, fileName,
+                            "removeBack", "jedno removeBack na kazdej z identycznych kopii", true,
+                            [this, size, minValue, maxValue](unsigned int currentSeed)
+                            {
+                                ArrayList** lists = createArrayListCopies(COPIES_PER_SERIES, size, currentSeed, minValue, maxValue);
 
-    ofstream file(fileName, ios::app);
-    if (!file.is_open())
-    {
-        cout << "Nie udalo sie otworzyc pliku!" << endl;
-        return;
-    }
+                                long long duration = measureOperationOnCopies(
+                                    lists,
+                                    COPIES_PER_SERIES,
+                                    [](ArrayList& list, int)
+                                    {
+                                        list.removeBack();
+                                    });
 
-    long long totalTime = 0;
-    const int copiesPerSeries = 100;
+                                deleteArrayListCopies(lists, COPIES_PER_SERIES);
 
-    writeReportHeader(file, "removeBack",
-                      "jedno removeBack na kazdej z identycznych kopii",
-                      size, seriesCount, baseSeed, minValue, maxValue, copiesPerSeries);
-
-    for (int i = 0; i < seriesCount; i++)
-    {
-        unsigned int currentSeed = baseSeed + i;
-
-        ArrayList** lists = createArrayListCopies(copiesPerSeries, size, currentSeed, minValue, maxValue);
-
-        auto start = chrono::steady_clock::now();
-
-        for (int j = 0; j < copiesPerSeries; j++)
-        {
-            lists[j]->removeBack();
-        }
-
-        auto stop = chrono::steady_clock::now();
-
-        auto duration = chrono::duration_cast<chrono::nanoseconds>(stop - start).count();
-        double oneOperationTime = static_cast<double>(duration) / copiesPerSeries;
-        totalTime += duration;
-
-        file << "Seria " << i + 1 << ": " << oneOperationTime << " ns/op" << endl;
-
-        deleteArrayListCopies(lists, copiesPerSeries);
-    }
-
-    double averageTime = static_cast<double>(totalTime) / (seriesCount * copiesPerSeries);
-
-    writeReportFooter(file, averageTime);
-    file.close();
-
-    cout << "Zakonczono pomiar removeBack." << endl;
-    cout << "Sredni czas: " << averageTime << " ns/op" << endl;
-    cout << "Wyniki zapisano do pliku: " << fileName << endl;
+                                return duration;
+                            });
 }
 
 // RemoveFront
@@ -341,58 +328,24 @@ void Research::measureArrayListInsertAt(int size, int seriesCount, unsigned int 
 void Research::measureArrayListRemoveFront(int size, int seriesCount, unsigned int baseSeed,
                                            int minValue, int maxValue, const string& fileName)
 {
-    if (size <= 0 || seriesCount <= 0 || minValue > maxValue)
-    {
-        cout << "Niepoprawne parametry pomiaru!" << endl;
-        return;
-    }
+    runArrayListMeasurement(size, seriesCount, baseSeed, minValue, maxValue, fileName,
+                            "removeFront", "jedno removeFront na kazdej z identycznych kopii", true,
+                            [this, size, minValue, maxValue](unsigned int currentSeed)
+                            {
+                                ArrayList** lists = createArrayListCopies(COPIES_PER_SERIES, size, currentSeed, minValue, maxValue);
 
-    ofstream file(fileName, ios::app);
-    if (!file.is_open())
-    {
-        cout << "Nie udalo sie otworzyc pliku!" << endl;
-        return;
-    }
+                                long long duration = measureOperationOnCopies(
+                                    lists,
+                                    COPIES_PER_SERIES,
+                                    [](ArrayList& list, int)
+                                    {
+                                        list.removeFront();
+                                    });
 
-    long long totalTime = 0;
-    const int copiesPerSeries = 100;
+                                deleteArrayListCopies(lists, COPIES_PER_SERIES);
 
-    writeReportHeader(file, "removeFront",
-                      "jedno removeFront na kazdej z identycznych kopii",
-                      size, seriesCount, baseSeed, minValue, maxValue, copiesPerSeries);
-
-    for (int i = 0; i < seriesCount; i++)
-    {
-        unsigned int currentSeed = baseSeed + i;
-
-        ArrayList** lists = createArrayListCopies(copiesPerSeries, size, currentSeed, minValue, maxValue);
-
-        auto start = chrono::steady_clock::now();
-
-        for (int j = 0; j < copiesPerSeries; j++)
-        {
-            lists[j]->removeFront();
-        }
-
-        auto stop = chrono::steady_clock::now();
-
-        auto duration = chrono::duration_cast<chrono::nanoseconds>(stop - start).count();
-        double oneOperationTime = static_cast<double>(duration) / copiesPerSeries;
-        totalTime += duration;
-
-        file << "Seria " << i + 1 << ": " << oneOperationTime << " ns/op" << endl;
-
-        deleteArrayListCopies(lists, copiesPerSeries);
-    }
-
-    double averageTime = static_cast<double>(totalTime) / (seriesCount * copiesPerSeries);
-
-    writeReportFooter(file, averageTime);
-    file.close();
-
-    cout << "Zakonczono pomiar removeFront." << endl;
-    cout << "Sredni czas: " << averageTime << " ns/op" << endl;
-    cout << "Wyniki zapisano do pliku: " << fileName << endl;
+                                return duration;
+                            });
 }
 
 // RemoveAt
@@ -400,126 +353,49 @@ void Research::measureArrayListRemoveFront(int size, int seriesCount, unsigned i
 void Research::measureArrayListRemoveAt(int size, int seriesCount, unsigned int baseSeed,
                                         int minValue, int maxValue, const string& fileName)
 {
-    if (size <= 0 || seriesCount <= 0 || minValue > maxValue)
-    {
-        cout << "Niepoprawne parametry pomiaru!" << endl;
-        return;
-    }
+    runArrayListMeasurement(size, seriesCount, baseSeed, minValue, maxValue, fileName,
+                            "removeAt", "jedno removeAt na kazdej z identycznych kopii, indeks losowy", true,
+                            [this, size, minValue, maxValue](unsigned int currentSeed)
+                            {
+                                ArrayList** lists = createArrayListCopies(COPIES_PER_SERIES, size, currentSeed, minValue, maxValue);
+                                int* preparedIndexes = prepareRandomIndexes(COPIES_PER_SERIES, 0, size - 1);
 
-    ofstream file(fileName, ios::app);
-    if (!file.is_open())
-    {
-        cout << "Nie udalo sie otworzyc pliku!" << endl;
-        return;
-    }
+                                long long duration = measureOperationOnCopies(
+                                    lists,
+                                    COPIES_PER_SERIES,
+                                    [preparedIndexes](ArrayList& list, int copyIndex)
+                                    {
+                                        list.removeAt(preparedIndexes[copyIndex]);
+                                    });
 
-    long long totalTime = 0;
-    const int copiesPerSeries = 100;
+                                deleteArrayListCopies(lists, COPIES_PER_SERIES);
+                                delete[] preparedIndexes;
 
-    writeReportHeader(file, "removeAt",
-                      "jedno removeAt na kazdej z identycznych kopii, indeks losowy",
-                      size, seriesCount, baseSeed, minValue, maxValue, copiesPerSeries);
-
-    for (int i = 0; i < seriesCount; i++)
-    {
-        unsigned int currentSeed = baseSeed + i;
-
-        ArrayList** lists = createArrayListCopies(copiesPerSeries, size, currentSeed, minValue, maxValue);
-        int* preparedIndexes = new int[copiesPerSeries];
-
-        for (int j = 0; j < copiesPerSeries; j++)
-        {
-            preparedIndexes[j] = generateRandomNumber(0, size - 1);
-        }
-
-        auto start = chrono::steady_clock::now();
-
-        for (int j = 0; j < copiesPerSeries; j++)
-        {
-            lists[j]->removeAt(preparedIndexes[j]);
-        }
-
-        auto stop = chrono::steady_clock::now();
-
-        auto duration = chrono::duration_cast<chrono::nanoseconds>(stop - start).count();
-        double oneOperationTime = static_cast<double>(duration) / copiesPerSeries;
-        totalTime += duration;
-
-        file << "Seria " << i + 1 << ": " << oneOperationTime << " ns/op" << endl;
-
-        deleteArrayListCopies(lists, copiesPerSeries);
-        delete[] preparedIndexes;
-    }
-
-    double averageTime = static_cast<double>(totalTime) / (seriesCount * copiesPerSeries);
-
-    writeReportFooter(file, averageTime);
-    file.close();
-
-    cout << "Zakonczono pomiar removeAt." << endl;
-    cout << "Sredni czas: " << averageTime << " ns/op" << endl;
-    cout << "Wyniki zapisano do pliku: " << fileName << endl;
+                                return duration;
+                            });
 }
 
-void Research::measureArrayListSearch(int size, int seriesCount, unsigned int baseSeed, int minValue, int maxValue, const string& fileName)
+void Research::measureArrayListSearch(int size, int seriesCount, unsigned int baseSeed,
+                                      int minValue, int maxValue, const string& fileName)
 {
-    if (size <= 0 || seriesCount <=0 || minValue > maxValue)
-    {
-        cout << "Niepoprawne parametry pomiaru! " << endl;
-        return;
-    }
+    runArrayListMeasurement(size, seriesCount, baseSeed, minValue, maxValue, fileName,
+                            "search", "jedno search na kopii, szukany element istnieje i ma losowa pozycje", true,
+                            [this, size, minValue, maxValue](unsigned int currentSeed)
+                            {
+                                ArrayList** lists = createArrayListCopies(COPIES_PER_SERIES, size, currentSeed, minValue, maxValue);
+                                int* preparedValues = prepareSearchValues(lists, COPIES_PER_SERIES, size);
 
-    ofstream file(fileName, ios::app);
-    if (!file.is_open())
-    {
-        cout << "Nie udalo sie otworzyc pliku"<< endl;
-        return;
-    }
+                                long long duration = measureOperationOnCopies(
+                                    lists,
+                                    COPIES_PER_SERIES,
+                                    [preparedValues](ArrayList& list, int copyIndex)
+                                    {
+                                        list.searchRaw(preparedValues[copyIndex]);
+                                    });
 
-    long long totalTime = 0;
-    const int copiesPerSeries = 100;
+                                deleteArrayListCopies(lists, COPIES_PER_SERIES);
+                                delete[] preparedValues;
 
-    writeReportHeader(file, "search", "jedno serach na kopii, szukany element istnieje i ma losowa pozycje", size, seriesCount, baseSeed, minValue, maxValue, copiesPerSeries);
-
-    for (int i = 0; i < seriesCount; i++)
-    {
-        unsigned int currentSeed = baseSeed + i;
-
-        ArrayList** lists = createArrayListCopies(copiesPerSeries, size, currentSeed, minValue, maxValue);
-        int* preparedValues = new int[copiesPerSeries];
-
-        for (int j = 0; j < copiesPerSeries; j++)
-        {
-            int randomIndex = generateRandomNumber(0, size - 1);
-            preparedValues[j] = lists[j]->getValueAt(randomIndex);
-        }
-
-        auto start = chrono::steady_clock::now();
-
-        for (int j = 0; j <copiesPerSeries; j++)
-        {
-            lists[j]->searchRaw(preparedValues[j]);
-        }
-
-        auto stop = chrono::steady_clock::now();
-
-        auto duration = chrono::duration_cast<chrono::nanoseconds>(stop - start).count();
-        double oneOperationTime = static_cast<double>(duration) / copiesPerSeries;
-
-        totalTime += duration;
-
-        file << "Seria " << i + 1 << ": " << oneOperationTime << " ns/op" << endl;
-
-        deleteArrayListCopies(lists, copiesPerSeries);
-        delete[] preparedValues;
-    }
-
-    double averageTime = static_cast<double>(totalTime) / (seriesCount * copiesPerSeries);
-
-    writeReportFooter(file, averageTime);
-    file.close();
-
-    cout<< "Zakonczono pomiar search." << endl;
-    cout << "Sredni czas: " << averageTime << " ns/op" << endl;
-    cout << "Wynik zapisano do pliku: " << fileName << endl;
+                                return duration;
+                            });
 }
