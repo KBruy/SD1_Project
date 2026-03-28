@@ -22,6 +22,9 @@ class SinglyLinkedList
        bool isEmpty();
        void print();
        void clear();
+
+       //operacje
+       void pushBack(int value);
         
 };
 

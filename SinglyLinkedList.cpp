@@ -8,7 +8,7 @@ using namespace std;
 
 SinglyLinkedList::SinglyLinkedList()
 {
-    head = nullptr;
+    head = nullptr; //lista jest pusta
     tail = nullptr;
     size = 0;
 }
@@ -41,11 +41,11 @@ void SinglyLinkedList::clear()
 {
     Node* current = head;
 
-    while (current != nullptr)
+    while (current != nullptr)//idziemy do końca listy
     {
-        Node* next = current->next;
-        delete current;
-        current = next;
+        Node* next = current->next; //zapamietujemy nastepny element
+        delete current; //usuwamy obecny
+        current = next; //przechodzimy dalej
     }
 
     head = nullptr;
@@ -58,7 +58,7 @@ void SinglyLinkedList::clear()
 void SinglyLinkedList::print()
 {
     cout << "Zawartosc listy: ";
-    Node* current = head;
+    Node* current = head; //pierwszy element
 
     while (current != nullptr)
     {
@@ -69,4 +69,27 @@ void SinglyLinkedList::print()
     cout << endl;
     cout << "Size: " << size << endl;
     cout << endl;
+}
+
+//=========================================
+//=========================================
+//Operacje
+
+void SinglyLinkedList::pushBack(int value)
+{
+    Node* newNode = new Node; //tworzymy nowy węzeł dynamicznie w pamięci i zwracamy adres do tego węzła
+    newNode->value = value; //wpisujemy do niego wartosc
+    newNode->next = nullptr; //to ostatni element listy więc nie bedzie następnego
+
+    if (isEmpty())
+    {
+        head = newNode;
+        tail = newNode;
+    }
+    else
+    {
+        tail->next = newNode; //ogon wskazuje na nowy ostatni element
+    }
+
+    size++;
 }
