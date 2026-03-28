@@ -5,7 +5,11 @@
             "label": "Build C++ project",
             "command": "mkdir -p build && clang++ -std=c++17 -Wall -Wextra -g $(find . -name '*.cpp' -not -path './build/*') -o build/app",
             "windows": {
-                "command": "if not exist build mkdir build && powershell -NoProfile -ExecutionPolicy Bypass -Command \"$files = Get-ChildItem -Path . -Recurse -Filter *.cpp | Where-Object { $_.FullName -notmatch '\\\\build\\\\' } | ForEach-Object { $_.FullName }; g++ -std=c++17 -Wall -Wextra -g $files -o build/app.exe\""
+                "command": "cmd",
+                "args": [
+                    "/c",
+                    "if not exist build mkdir build && g++ -std=c++17 -Wall -Wextra -g ArrayList.cpp Menu.cpp Research.cpp main.cpp -o build\\app.exe"
+                ]
             },
             "linux": {
                 "command": "mkdir -p build && g++ -std=c++17 -Wall -Wextra -g $(find . -name '*.cpp' -not -path './build/*') -o build/app"
@@ -64,6 +68,24 @@
                 "-o",
                 "${fileDirname}/${fileBasenameNoExtension}"
             ],
+            "windows": {
+                "command": "g++",
+                "args": [
+                    "-g",
+                    "${file}",
+                    "-o",
+                    "${fileDirname}/${fileBasenameNoExtension}.exe"
+                ]
+            },
+            "linux": {
+                "command": "g++",
+                "args": [
+                    "-g",
+                    "${file}",
+                    "-o",
+                    "${fileDirname}/${fileBasenameNoExtension}"
+                ]
+            },
             "options": {
                 "cwd": "${fileDirname}"
             },
