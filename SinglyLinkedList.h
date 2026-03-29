@@ -22,10 +22,12 @@ class SinglyLinkedList
        bool isEmpty();
        void print();
        void clear();
+       int getValueAt(int index);
 
        //operacje
        void pushBack(int value);
        void pushFront(int value);
+       void insertAt(int index, int value);
         
 };
 

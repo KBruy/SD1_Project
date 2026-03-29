@@ -71,6 +71,29 @@ void SinglyLinkedList::print()
     cout << endl;
 }
 
+//=============================
+//getValue (do wyszukiwania i wsadzania w odpowiednie miejsce)
+
+int SinglyLinkedList::getValueAt(int index)
+{
+    // sprawdzamy czy indeks jest poprawny
+    if (index < 0 || index >= size)
+    {
+        cout << "Niepoprawny indeks!" << endl;
+        return -1;
+    }
+
+    Node* current = head; //pierwszy element listy
+
+    //przechodzimy o tyle krokow i ile wynosi indeks
+    for (int i = 0; i < index; i++)
+    {
+        current = current->next;
+    }
+
+    return current->value; //po zakonczeniu petli current wskazuje na wezel o podanym indeksie
+}
+
 //=========================================
 //=========================================
 //Operacje
@@ -117,3 +140,41 @@ void SinglyLinkedList::pushFront(int value)
 
     size++;
 }
+
+void SinglyLinkedList::insertAt(int index, int value)
+{
+    if (index < 0 || index > size)
+    {
+        cout << "Niepoprawny indeks!" << endl;
+        return;
+
+    }
+
+    // jesli wstawiamy na poczatek 
+    if (index == 0)
+    {
+        pushFront(value);
+        return;
+    }
+
+    if (index == size)
+    {
+        pushBack(value);
+        return;
+    }
+
+    Node* newNode = new Node;
+    newNode->value = value;
+
+    Node* current = head; //szukamy zadanego wezla, przed miejscem wstawienia
+    for (int i = 0; i < index - 1; i++){
+        current = current->next;
+    }
+
+    newNode->next = current->next; //nowy wezel ma wskazywac na element kroty byl do teraz po current
+    current->next = newNode; //teraz ma wskazyac na nowy wezel
+
+    size++;
+    
+}
+
