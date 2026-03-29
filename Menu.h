@@ -37,6 +37,9 @@ class Menu
     void showResearchMenu();
     void handleResearchMenu();
 
+    void showSinglyResearchMenu();
+    void handleSinglyResearchMenu();
+
     public:
     void run(); //start programu
 };

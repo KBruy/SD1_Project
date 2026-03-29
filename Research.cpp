@@ -399,3 +399,82 @@ void Research::measureArrayListSearch(int size, int seriesCount, unsigned int ba
                                 return duration;
                             });
 }
+
+
+//============================================================================================
+//--------------------------------------------------------------------------------------------
+//Lista jednokierunkowa
+
+SinglyLinkedList** Research::createSinglyLinkedListCopies(int copiesPerSeries, int size, unsigned int seed, int minValue, int maxValue)
+{
+    SinglyLinkedList** lists = new SinglyLinkedList*[copiesPerSeries];
+
+    for (int j = 0; j < copiesPerSeries; j++)
+    {
+        lists[j] = new SinglyLinkedList();
+
+        srand(seed);
+        for (int i = 0; i < size; i++){
+            int value = generateRandomNumber(minValue, maxValue);
+            lists[j]->pushBack(value);
+        }
+    }
+
+    return lists;
+}
+
+void Research::deleteSinglyLinkedCopies(SinglyLinkedList** lists, int copiesPerSeries)
+{
+    for (int j = 0; j < copiesPerSeries; j++)
+    {
+        delete lists[j];
+    }
+
+    delete[] lists;
+}
+
+void Research::measureSinglyLinkedListPushBack(int size, int seriesCount, unsigned int baseSeed, int minValue, int maxValue, const string& fileName)
+{
+    if (!validateMeasurementParameters(size, seriesCount, minValue, maxValue, false))
+    {
+        return;
+    }
+
+    ofstream file;
+    if (!openReportFile(file, fileName)){
+        return;
+    }
+
+    long long totalTime = 0;
+
+    writeReportHeader(file, "pushBack", "jedno na kopie", size, seriesCount, baseSeed, minValue, maxValue, COPIES_PER_SERIES);
+
+    for (int i = 0; i < seriesCount; i++)
+    {
+        unsigned int currentSeed = baseSeed + i;
+        SinglyLinkedList** lists = createSinglyLinkedListCopies(COPIES_PER_SERIES, size, currentSeed, minValue, maxValue);
+        int* preparedValues = prepareRandomValues(COPIES_PER_SERIES, minValue, maxValue);
+        auto start = chrono::steady_clock::now();
+        for (int j = 0; j < COPIES_PER_SERIES; j++){
+            lists[j]->pushBack(preparedValues[j]);
+        }
+
+        auto stop = chrono::steady_clock::now();
+
+        long long duration = chrono::duration_cast<chrono::nanoseconds>(stop - start).count();
+        double oneOperationTime = static_cast<double>(duration) /  COPIES_PER_SERIES;
+
+        totalTime += duration;
+        writeSeriesResult(file, i + 1, oneOperationTime);
+
+        deleteSinglyLinkedCopies(lists, COPIES_PER_SERIES);
+        delete[] preparedValues;
+    }
+
+    double averageTime = static_cast<double>(totalTime) / (seriesCount * COPIES_PER_SERIES);
+
+    writeReportFooter(file, averageTime);
+    file.close();
+
+    printMeasurementSummary("pushBack (SinglyLinkedList)", averageTime, fileName);
+}

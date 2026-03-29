@@ -5,6 +5,8 @@
 #include <functional>
 #include <string>
 #include "ArrayList.h"
+#include "SinglyLinkedList.h"
+
 
 class Research
 {
@@ -35,7 +37,17 @@ private:
                                  const std::string& measurementMode, bool requireNonEmptySize,
                                  const std::function<long long(unsigned int currentSeed)>& measureSeries);
 
+
+    //Lista Jednokierunkowa
+
+    //helper tworzący kopie listy jednokierunkowej
+    SinglyLinkedList** createSinglyLinkedListCopies(int copiesPerSeries, int size, unsigned int seed, int minValue, int maxValue);
+    //helper usuwający kopie
+    void deleteSinglyLinkedCopies(SinglyLinkedList** lists, int copiesPerSeries);
+
 public:
+
+    //Tablica dynamiczna
     void measureArrayListPushBack(int size, int seriesCount, unsigned int baseSeed, int minValue, int maxValue, const std::string& fileName);
     void measureArrayListPushFront(int size, int seriesCount, unsigned int baseSeed, int minValue, int maxValue, const std::string& fileName);
     void measureArrayListInsertAt(int size, int seriesCount, unsigned int baseSeed, int minValue, int maxValue, const std::string& fileName);
@@ -43,6 +55,10 @@ public:
     void measureArrayListRemoveFront(int size, int seriesCount, unsigned int baseSeed, int minValue, int maxValue, const std::string& fileName);
     void measureArrayListRemoveAt(int size, int seriesCount, unsigned int baseSeed, int minValue, int maxValue, const std::string& fileName);
     void measureArrayListSearch(int size, int seriesCount, unsigned int baseSeed, int minValue, int maxValue, const std::string& fileName);
+
+    // Lista jednokierunkowa
+    void measureSinglyLinkedListPushBack(int size, int seriesCount, unsigned int baseSeed, int minValue, int maxValue, const std::string& fileName);
+
 
 };
 

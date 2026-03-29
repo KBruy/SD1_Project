@@ -489,7 +489,8 @@ void Menu::showSinglyLinkedListMenu()
     cout << "8. Wyszukaj wartosc" << endl;
     cout << "9. Wyswietl liste" << endl;
     cout << "10. Wyczysc strukture" << endl;
-    cout << "11. Powrot do menu glownego" << endl;
+    cout << "11. Menu pomiarow" << endl;
+    cout << "12. Powrot do menu glownego" << endl;
     cout << "---> ";
 }
 
@@ -657,6 +658,12 @@ void Menu::handleSinglyLinkedListMenu()
 
             case 11:
             {
+                handleSinglyResearchMenu();
+                break;
+            }
+
+            case 12:
+            {
                 cout << "Powrot do menu glownego." << endl;
                 break;
             }
@@ -668,5 +675,67 @@ void Menu::handleSinglyLinkedListMenu()
             }
         }
 
-    } while (choice != 11);
+    } while (choice != 12);
+}
+
+void Menu::showSinglyResearchMenu()
+{
+    cout << endl;
+    cout << "==== Menu Pomiarow: Lista Jednokierunkowa ====" << endl;
+    cout << "1. Zmierz pushBack" << endl;
+    cout << "2. Powrot do menu listy jednokierunkowej" << endl;
+    cout << "----> ";
+}
+
+void Menu::handleSinglyResearchMenu()
+{
+    int choice;
+    do
+    {
+        showSinglyResearchMenu();
+        cin >> choice;
+
+        switch(choice)
+        {
+            case 1:
+            {
+                int size;
+                int seriesCount;
+                string fileName;
+
+                cout << "Podaj rozmiar poczatkowy struktury: ";
+                cin >> size;
+
+                cout << "Podaj liczbe serii: ";
+                cin >> seriesCount;
+
+                cout << "Podaj nazwe pliku: ";
+                cin >> fileName;
+
+                if (size < 0 || seriesCount <= 0)
+                {
+                    cout << "Niepoprawne dane!" << endl;
+                    break;
+                }
+
+                research.measureSinglyLinkedListPushBack(size, seriesCount, seed, minRandomValue, maxRandomValue, fileName);
+
+                break;
+            }
+
+            case 2:
+            {
+                cout << "Powrot do menu listy jednokierunkowej." << endl;
+                break;
+            }
+
+            default:
+            {
+                cout << "Niepoprawna opcja!" << endl;
+                break;
+            }
+        }
+
+    } while (choice != 2);
+    
 }
