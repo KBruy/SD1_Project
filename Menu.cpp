@@ -485,9 +485,10 @@ void Menu::showSinglyLinkedListMenu()
     cout << "4. Dodaj element na wybrany indeks" << endl;
     cout << "5. Usun element z konca" << endl;
     cout << "6. Usun element z poczatku" << endl;
-    cout << "7. Wyswietl liste" << endl;
-    cout << "8. Wyczysc strukture" << endl;
-    cout << "9. Powrot do menu glownego" << endl;
+    cout << "7. Usun element z losowego indexu" << endl;
+    cout << "8. Wyswietl liste" << endl;
+    cout << "9. Wyczysc strukture" << endl;
+    cout << "10. Powrot do menu glownego" << endl;
     cout << "---> ";
 }
 
@@ -585,7 +586,6 @@ void Menu::handleSinglyLinkedListMenu()
             case 5:
             {
                 singlyLinkedList.removeBack();
-                
                 cout << "Usunieto ostatni element" << endl;
                 break;
             }
@@ -593,16 +593,36 @@ void Menu::handleSinglyLinkedListMenu()
             case 6:
             {
                 singlyLinkedList.removeFront();
+                cout << "Usunieto pierwszy element" <<endl;
                 break;
             }
 
             case 7:
             {
-                singlyLinkedList.print();
+                if (!randomSinglyStructureCreated)
+                {
+                    cout << "Najpierw utworz losowa strukture! " << endl;
+                }
+                if (singlyLinkedList.isEmpty())
+                {
+                    cout << "Lista jest pusta! " << endl;
+                    break;
+                }
+
+                int index = generateRandomNumber(0, singlyLinkedList.getSize() - 1);
+                singlyLinkedList.removeAt(index);
+
+                cout << "Usunieto element z losowego indeksu: " << index << endl;
                 break;
             }
 
             case 8:
+            {
+                singlyLinkedList.print();
+                break;
+            }
+
+            case 9:
             {
                 singlyLinkedList.clear();
                 randomSinglyStructureCreated = false;
@@ -610,7 +630,7 @@ void Menu::handleSinglyLinkedListMenu()
                 break;
             }
 
-            case 9:
+            case 10:
             {
                 cout << "Powrot do menu glownego." << endl;
                 break;
@@ -623,5 +643,5 @@ void Menu::handleSinglyLinkedListMenu()
             }
         }
 
-    } while (choice != 9);
+    } while (choice != 10);
 }

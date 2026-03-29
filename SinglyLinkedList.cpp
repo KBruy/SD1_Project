@@ -242,3 +242,42 @@ void SinglyLinkedList::removeFront()
 
 }
 
+void SinglyLinkedList::removeAt(int index)
+{
+    if (index < 0 || index >= size)
+    {
+        cout << "Niepoprawny indeks!" << endl;
+        return;
+    }
+
+    //jesli usuwamy pierwszy element to bierzemy gotowa metode
+    if (index == 0)
+    {
+        removeFront();
+        return;
+
+    }
+
+    //dla ostatniego elementu podobnie
+    if (index == size - 1){
+        removeBack();
+    }
+
+    Node* current = head; //szukamy wezla stojacego przed usuwanym elementem
+    for (int i = 0; i < index - 1; i++)
+    {
+        current = current->next;
+    }
+
+    //zapamietujemy wezel ktory ma zostac usuniety
+    Node* temp = current->next;
+
+    // omijamy usuwany element w lancuchu
+    current->next = temp->next;
+
+    delete temp;
+    size--;
+
+
+}
+

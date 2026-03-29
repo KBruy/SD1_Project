@@ -30,6 +30,7 @@ class SinglyLinkedList
        void insertAt(int index, int value);
        void removeBack();
        void removeFront();
+       void removeAt(int index);
         
 };
 
