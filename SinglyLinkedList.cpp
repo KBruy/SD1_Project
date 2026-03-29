@@ -94,3 +94,26 @@ void SinglyLinkedList::pushBack(int value)
 
     size++;
 }
+
+void SinglyLinkedList::pushFront(int value)
+{
+    Node* newNode = new Node; //tworzymy nowy wezel dynamicznie
+    newNode->value = value; // dodanie wartosci do nowego wezla
+
+    // jesli lista jest pusta, nowy element bedzie jednoczesnie head i tail
+    if (isEmpty()){
+        newNode->next = nullptr;
+        head = newNode;
+        tail = newNode;
+    }
+    else
+    {
+        // nowy element ma wskazywac na stary poczatek listy
+        newNode->next = head;
+
+        // przesuwamy head na nowy pierwszy element
+        head = newNode;
+    }
+
+    size++;
+}

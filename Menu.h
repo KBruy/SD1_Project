@@ -29,6 +29,7 @@ class Menu
 
     //================================
     //Lista jednokierunkowa
+    bool randomSinglyStructureCreated = false;
     void showSinglyLinkedListMenu();
     void handleSinglyLinkedListMenu();
 

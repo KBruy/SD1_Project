@@ -481,100 +481,113 @@ void Menu::showSinglyLinkedListMenu()
     cout << "=== Lista Jednokierunkowa ===" << endl;
     cout << "1. Utworz losowa strukture" << endl;
     cout << "2. Dodaj element na koniec" << endl;
-    cout << "3. Wyswietl liste" << endl;
-    cout << "4. Wyczysc strukture" << endl;
-    cout << "5. Powrot do menu glownego" << endl;
+    cout << "3. Dodaj element na poczatek" << endl;
+    cout << "4. Wyswietl liste" << endl;
+    cout << "5. Wyczysc strukture" << endl;
+    cout << "6. Powrot do menu glownego" << endl;
     cout << "---> ";
 }
 
 void Menu::handleSinglyLinkedListMenu()
 {
     int choice;
-    bool randomStructureCreated = false;
-    
+
     do
     {
-        
         showSinglyLinkedListMenu();
         cin >> choice;
 
-        switch(choice)
+        switch (choice)
         {
             case 1:
             {
-            int count;
-            cout << "Podaj rozmiar struktury: ";
-            cin >> count;
+                int count;
 
-            cout <<"Podaj minimalna wartosc (standardowo 0): ";
-            cin >> minRandomValue;
+                cout << "Podaj rozmiar struktury: ";
+                cin >> count;
 
-            cout << "Podaj maksymalna wartosc (standardowo 16777215): ";
-            cin >> maxRandomValue;
+                cout << "Podaj minimalna wartosc (standardowo 0): ";
+                cin >> minRandomValue;
 
-            if (count < 0 || minRandomValue > maxRandomValue)
-            {
-                cout << "Niepoprawne dane!" << endl;
+                cout << "Podaj maksymalna wartosc (standardowo 16777215): ";
+                cin >> maxRandomValue;
+
+                if (count < 0 || minRandomValue > maxRandomValue)
+                {
+                    cout << "Niepoprawne dane!" << endl;
+                    break;
+                }
+
+                singlyLinkedList.clear();
+                srand(seed);
+
+                for (int i = 0; i < count; i++)
+                {
+                    int value = generateRandomNumber(minRandomValue, maxRandomValue);
+                    singlyLinkedList.pushBack(value);
+                }
+
+                randomSinglyStructureCreated = true;
+                cout << "Utworzono losowa strukture." << endl;
                 break;
             }
 
-            singlyLinkedList.clear();
-            srand(seed);
-
-            for (int i = 0; i < count; i++)
+            case 2:
             {
+                if (!randomSinglyStructureCreated)
+                {
+                    cout << "Najpierw utworz losowa strukture!" << endl;
+                    break;
+                }
+
                 int value = generateRandomNumber(minRandomValue, maxRandomValue);
                 singlyLinkedList.pushBack(value);
-            }
 
-            randomStructureCreated = true;
-            cout << "Utworzono losowa strukture." << endl;
-            break;
-        }
-
-        case 2:
-        {
-            if (!randomStructureCreated)
-            {
-                cout << "Najpierw utworz losowa strukture!" <<endl;
+                cout << "Dodano losowy element na koniec: " << value << endl;
                 break;
             }
 
-            int value = generateRandomNumber(minRandomValue, maxRandomValue);
-            singlyLinkedList.pushBack(value);
+            case 3:
+            {
+                if (!randomSinglyStructureCreated)
+                {
+                    cout << "Najpierw utworz losowa strukture!" << endl;
+                    break;
+                }
 
-            cout << "Dodano losowy element na koniec: " << value << endl;
-            break;
+                int value = generateRandomNumber(minRandomValue, maxRandomValue);
+                singlyLinkedList.pushFront(value);
+
+                cout << "Dodano losowy element na poczatek: " << value << endl;
+                break;
+            }
+
+            case 4:
+            {
+                singlyLinkedList.print();
+                break;
+            }
+
+            case 5:
+            {
+                singlyLinkedList.clear();
+                randomSinglyStructureCreated = false;
+                cout << "Struktura zostala wyczyszczona." << endl;
+                break;
+            }
+
+            case 6:
+            {
+                cout << "Powrot do menu glownego." << endl;
+                break;
+            }
+
+            default:
+            {
+                cout << "Niepoprawna opcja!" << endl;
+                break;
+            }
         }
 
-        case 3:
-        {
-            singlyLinkedList.print();
-            break;
-        }
-
-        case 4:
-        {
-            singlyLinkedList.clear();
-            randomStructureCreated = false;
-            cout << "Struktura zostala wyczyszczona" <<endl;
-            break;
-        }
-
-        case 5:
-        {
-            cout << "Powrot do menu glownego" << endl;
-            break;
-        }
-
-        default:
-        {
-            cout <<"Niepoprawna opcja!" << endl;
-            break;
-        }
-
-        }
-
-    } while (choice != 5);
-    
+    } while (choice != 6);
 }

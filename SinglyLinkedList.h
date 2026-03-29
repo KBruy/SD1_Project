@@ -25,6 +25,7 @@ class SinglyLinkedList
 
        //operacje
        void pushBack(int value);
+       void pushFront(int value);
         
 };
 
