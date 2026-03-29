@@ -486,9 +486,10 @@ void Menu::showSinglyLinkedListMenu()
     cout << "5. Usun element z konca" << endl;
     cout << "6. Usun element z poczatku" << endl;
     cout << "7. Usun element z losowego indexu" << endl;
-    cout << "8. Wyswietl liste" << endl;
-    cout << "9. Wyczysc strukture" << endl;
-    cout << "10. Powrot do menu glownego" << endl;
+    cout << "8. Wyszukaj wartosc" << endl;
+    cout << "9. Wyswietl liste" << endl;
+    cout << "10. Wyczysc strukture" << endl;
+    cout << "11. Powrot do menu glownego" << endl;
     cout << "---> ";
 }
 
@@ -617,11 +618,36 @@ void Menu::handleSinglyLinkedListMenu()
 
             case 8:
             {
+                if (!randomSinglyStructureCreated)
+                {
+                    cout << "Najpierw utworz losowa strukture!" << endl;
+                    break;
+                }
+
+                if (singlyLinkedList.isEmpty()){
+                    cout << "Lista jest pusta!" << endl;
+                    break;
+
+                }
+
+                int randomIndex = generateRandomNumber(0, singlyLinkedList.getSize() - 1);
+                int value = singlyLinkedList.getValueAt(randomIndex);
+
+                cout <<" Losowo wybrano indeks: " << randomIndex << ", wartosc do wyszukania: " << value << endl;
+
+                int foundIndex = singlyLinkedList.search(value);
+                cout << "Wynik wyszukiwania (indeks): " << foundIndex << endl;
+                break;
+
+            }
+
+            case 9:
+            {
                 singlyLinkedList.print();
                 break;
             }
 
-            case 9:
+            case 10:
             {
                 singlyLinkedList.clear();
                 randomSinglyStructureCreated = false;
@@ -629,7 +655,7 @@ void Menu::handleSinglyLinkedListMenu()
                 break;
             }
 
-            case 10:
+            case 11:
             {
                 cout << "Powrot do menu glownego." << endl;
                 break;
@@ -642,5 +668,5 @@ void Menu::handleSinglyLinkedListMenu()
             }
         }
 
-    } while (choice != 10);
+    } while (choice != 11);
 }

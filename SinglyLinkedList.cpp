@@ -279,6 +279,41 @@ void SinglyLinkedList::removeAt(int index)
     delete temp;
     size--;
 
+}
 
+int SinglyLinkedList::searchRaw(int value) //szukanie na pewno istniejacego elementu do pozniejszej prawidlowej operacji
+{
+    Node* current = head;
+    int index = 0;
+
+    while (current != nullptr)
+    {
+        if (current->value == value)
+        {
+            return index; 
+        }
+
+        current = current->next;
+        index++;
+
+    }
+
+    return -1; //brak wartosci
+}
+
+int SinglyLinkedList::search(int value)
+{
+    int index = searchRaw(value);
+
+    if (index >= 0)
+    {
+        cout << " Znaleziono wartosc " << value << " na indeksie [ " << index << " ] " << endl;
+    }
+    else
+    {
+        cout << "Nie znaleziono indeksu dla wartosci " << value << endl;
+    }
+
+    return index;
 }
 

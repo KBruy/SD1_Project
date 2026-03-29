@@ -31,7 +31,9 @@ class SinglyLinkedList
        void removeBack();
        void removeFront();
        void removeAt(int index);
-       
+       int searchRaw(int value);
+       int search(int value);
+
         
 };
 
