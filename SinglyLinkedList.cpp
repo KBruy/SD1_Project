@@ -178,3 +178,27 @@ void SinglyLinkedList::insertAt(int index, int value)
     
 }
 
+void SinglyLinkedList::removeFront()
+{
+    if (isEmpty())
+    {
+        cout << "Lista jest pusta!" << endl;
+        return;
+    }
+
+    Node* temp = head; //zapamietujemy stary pierwszy element
+    head = head->next; //przesuwamy head na nastepny element listy
+
+    delete temp; // usuniecie pierwszego wezla z pamieci
+
+    size--;
+
+    //jesli po usunieciu lista jest pusta to tail musi byc pusty
+    if (isEmpty())
+    {
+        tail = nullptr;
+    }
+
+
+}
+

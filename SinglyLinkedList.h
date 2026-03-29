@@ -28,6 +28,7 @@ class SinglyLinkedList
        void pushBack(int value);
        void pushFront(int value);
        void insertAt(int index, int value);
+       void removeFront();
         
 };
 
