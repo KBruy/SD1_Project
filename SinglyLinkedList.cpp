@@ -178,6 +178,46 @@ void SinglyLinkedList::insertAt(int index, int value)
     
 }
 
+void SinglyLinkedList::removeBack(){
+    if (isEmpty())
+    {
+        cout << "Lista jest pusta!" << endl;
+        return;
+
+    }
+
+    //jesli lista ma tylko jeden element
+    if (head == tail)
+    {
+        delete head;
+        head = nullptr;
+        tail = nullptr;
+        size = 0;
+        return;
+    }
+
+    //przedostatni
+    Node* current = head;
+
+    while (current->next != tail)
+    {
+        current = current->next;
+    }
+
+    //usuwamy stary ostatni element
+    delete tail;
+
+    tail = current; //przedsostatni staje sie nowym tail
+
+    tail->next = nullptr; //nowy ostatni element nie ma nastepnego przekazania
+
+    size--;
+
+
+}
+
+
+
 void SinglyLinkedList::removeFront()
 {
     if (isEmpty())

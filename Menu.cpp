@@ -483,10 +483,11 @@ void Menu::showSinglyLinkedListMenu()
     cout << "2. Dodaj element na koniec" << endl;
     cout << "3. Dodaj element na poczatek" << endl;
     cout << "4. Dodaj element na wybrany indeks" << endl;
-    cout << "5. Usun element z poczatku" << endl;
-    cout << "6. Wyswietl liste" << endl;
-    cout << "7. Wyczysc strukture" << endl;
-    cout << "8. Powrot do menu glownego" << endl;
+    cout << "5. Usun element z konca" << endl;
+    cout << "6. Usun element z poczatku" << endl;
+    cout << "7. Wyswietl liste" << endl;
+    cout << "8. Wyczysc strukture" << endl;
+    cout << "9. Powrot do menu glownego" << endl;
     cout << "---> ";
 }
 
@@ -583,17 +584,25 @@ void Menu::handleSinglyLinkedListMenu()
 
             case 5:
             {
-                singlyLinkedList.removeFront();
+                singlyLinkedList.removeBack();
+                
+                cout << "Usunieto ostatni element" << endl;
                 break;
             }
 
             case 6:
             {
-                singlyLinkedList.print();
+                singlyLinkedList.removeFront();
                 break;
             }
 
             case 7:
+            {
+                singlyLinkedList.print();
+                break;
+            }
+
+            case 8:
             {
                 singlyLinkedList.clear();
                 randomSinglyStructureCreated = false;
@@ -601,7 +610,7 @@ void Menu::handleSinglyLinkedListMenu()
                 break;
             }
 
-            case 8:
+            case 9:
             {
                 cout << "Powrot do menu glownego." << endl;
                 break;
@@ -614,5 +623,5 @@ void Menu::handleSinglyLinkedListMenu()
             }
         }
 
-    } while (choice != 8);
+    } while (choice != 9);
 }
