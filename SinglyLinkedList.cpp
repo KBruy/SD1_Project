@@ -77,9 +77,9 @@ void SinglyLinkedList::print()
 
 void SinglyLinkedList::pushBack(int value)
 {
-    Node* newNode = new Node; //tworzymy nowy węzeł dynamicznie w pamięci i zwracamy adres do tego węzła
-    newNode->value = value; //wpisujemy do niego wartosc
-    newNode->next = nullptr; //to ostatni element listy więc nie bedzie następnego
+    Node* newNode = new Node; // tworzymy nowy wezel dynamicznie w pamieci
+    newNode->value = value;   // wpisujemy wartosc
+    newNode->next = nullptr;  // nowy element bedzie ostatni, wiec nie ma nastepnego
 
     if (isEmpty())
     {
@@ -88,7 +88,8 @@ void SinglyLinkedList::pushBack(int value)
     }
     else
     {
-        tail->next = newNode; //ogon wskazuje na nowy ostatni element
+        tail->next = newNode; // stary ogon wskazuje na nowy element
+        tail = newNode;       // przesuwamy tail na nowy ostatni element
     }
 
     size++;

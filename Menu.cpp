@@ -36,7 +36,7 @@ void Menu::run()
                 handleArrayListMenu();
                 break;
             case 2:
-                cout << "not yet" << endl;
+                handleSinglyLinkedListMenu();
                 break;
             case 3:
                 cout << "not yet" << endl;
@@ -52,6 +52,9 @@ void Menu::run()
     } while (choice !=4);
     
 }
+
+//=============================================
+// Tablica dynamiczna
 
 void Menu::showArrayListMenu()
 {
@@ -466,5 +469,112 @@ void Menu::handleResearchMenu()
             break;
         }
     } while (choice != 8);
+    
+}
+
+//===============================================================
+//Lista jednokierunkowa
+
+void Menu::showSinglyLinkedListMenu()
+{
+    cout << endl;
+    cout << "=== Lista Jednokierunkowa ===" << endl;
+    cout << "1. Utworz losowa strukture" << endl;
+    cout << "2. Dodaj element na koniec" << endl;
+    cout << "3. Wyswietl liste" << endl;
+    cout << "4. Wyczysc strukture" << endl;
+    cout << "5. Powrot do menu glownego" << endl;
+    cout << "---> ";
+}
+
+void Menu::handleSinglyLinkedListMenu()
+{
+    int choice;
+    bool randomStructureCreated = false;
+    
+    do
+    {
+        
+        showSinglyLinkedListMenu();
+        cin >> choice;
+
+        switch(choice)
+        {
+            case 1:
+            {
+            int count;
+            cout << "Podaj rozmiar struktury: ";
+            cin >> count;
+
+            cout <<"Podaj minimalna wartosc (standardowo 0): ";
+            cin >> minRandomValue;
+
+            cout << "Podaj maksymalna wartosc (standardowo 16777215): ";
+            cin >> maxRandomValue;
+
+            if (count < 0 || minRandomValue > maxRandomValue)
+            {
+                cout << "Niepoprawne dane!" << endl;
+                break;
+            }
+
+            singlyLinkedList.clear();
+            srand(seed);
+
+            for (int i = 0; i < count; i++)
+            {
+                int value = generateRandomNumber(minRandomValue, maxRandomValue);
+                singlyLinkedList.pushBack(value);
+            }
+
+            randomStructureCreated = true;
+            cout << "Utworzono losowa strukture." << endl;
+            break;
+        }
+
+        case 2:
+        {
+            if (!randomStructureCreated)
+            {
+                cout << "Najpierw utworz losowa strukture!" <<endl;
+                break;
+            }
+
+            int value = generateRandomNumber(minRandomValue, maxRandomValue);
+            singlyLinkedList.pushBack(value);
+
+            cout << "Dodano losowy element na koniec: " << value << endl;
+            break;
+        }
+
+        case 3:
+        {
+            singlyLinkedList.print();
+            break;
+        }
+
+        case 4:
+        {
+            singlyLinkedList.clear();
+            randomStructureCreated = false;
+            cout << "Struktura zostala wyczyszczona" <<endl;
+            break;
+        }
+
+        case 5:
+        {
+            cout << "Powrot do menu glownego" << endl;
+            break;
+        }
+
+        default:
+        {
+            cout <<"Niepoprawna opcja!" << endl;
+            break;
+        }
+
+        }
+
+    } while (choice != 5);
     
 }
