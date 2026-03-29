@@ -586,14 +586,12 @@ void Menu::handleSinglyLinkedListMenu()
             case 5:
             {
                 singlyLinkedList.removeBack();
-                cout << "Usunieto ostatni element" << endl;
                 break;
             }
 
             case 6:
             {
                 singlyLinkedList.removeFront();
-                cout << "Usunieto pierwszy element" <<endl;
                 break;
             }
 
@@ -602,6 +600,7 @@ void Menu::handleSinglyLinkedListMenu()
                 if (!randomSinglyStructureCreated)
                 {
                     cout << "Najpierw utworz losowa strukture! " << endl;
+                    break;
                 }
                 if (singlyLinkedList.isEmpty())
                 {

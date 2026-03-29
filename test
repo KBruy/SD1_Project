@@ -1,0 +1,24 @@
+==========================
+Struktura: ArrayList
+Operacja: removeFront
+Tryb pomiaru: jedno removeFront na kazdej z identycznych kopii
+Rozmiar poczatkowy: 15000
+Liczba serii: 10
+Seed bazowy: 12345
+Zakres losowania: [0, 16777215]
+Liczba kopii w serii: 100
+
+Seria 1: 29984.6 ns/op
+Seria 2: 20820 ns/op
+Seria 3: 16289.6 ns/op
+Seria 4: 14153.3 ns/op
+Seria 5: 13642.1 ns/op
+Seria 6: 13198.3 ns/op
+Seria 7: 12101.7 ns/op
+Seria 8: 12322.1 ns/op
+Seria 9: 12210.4 ns/op
+Seria 10: 12188.8 ns/op
+
+Sredni czas: 15691.1 ns/op
+==========================
+

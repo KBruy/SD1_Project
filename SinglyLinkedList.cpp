@@ -261,6 +261,7 @@ void SinglyLinkedList::removeAt(int index)
     //dla ostatniego elementu podobnie
     if (index == size - 1){
         removeBack();
+        return;
     }
 
     Node* current = head; //szukamy wezla stojacego przed usuwanym elementem
