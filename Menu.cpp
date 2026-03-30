@@ -684,7 +684,8 @@ void Menu::showSinglyResearchMenu()
     cout << "==== Menu Pomiarow: Lista Jednokierunkowa ====" << endl;
     cout << "1. Zmierz pushBack" << endl;
     cout << "2. Zmierz pushFront" << endl;
-    cout << "3. Powrot do menu listy jednokierunkowej" << endl;
+    cout << "3. Zmierz insertAt" << endl;
+    cout << "4. Powrot do menu listy jednokierunkowej" << endl;
     cout << "----> ";
 }
 
@@ -752,6 +753,32 @@ void Menu::handleSinglyResearchMenu()
 
             case 3:
             {
+                int size;
+                int seriesCount;
+                string fileName;
+
+                cout << "Podaj rozmiar poczatkowy struktury: ";
+                cin >> size;
+
+                cout << "Podaj liczbe serii: ";
+                cin >> seriesCount;
+
+                cout << "Podaj nazwe pliku txt: ";
+                cin >> fileName;
+
+                if (size < 0 || seriesCount <= 0)
+                {
+                    cout << "Niepoprawne dane!" << endl;
+                    break;
+                }
+
+                research.measureSinglyLinkedListInsertAt(size, seriesCount, seed,
+                                                        minRandomValue, maxRandomValue, fileName);
+                break;
+            }
+
+            case 4:
+            {
                 cout << "Powrot do menu listy jednokierunkowej." << endl;
                 break;
             }
@@ -763,6 +790,6 @@ void Menu::handleSinglyResearchMenu()
             }
         }
 
-    } while (choice != 3);
+    } while (choice != 4);
     
 }

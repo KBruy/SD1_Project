@@ -59,7 +59,7 @@ public:
     // Lista jednokierunkowa
     void measureSinglyLinkedListPushBack(int size, int seriesCount, unsigned int baseSeed, int minValue, int maxValue, const std::string& fileName);
     void measureSinglyLinkedListPushFront(int size, int seriesCount, unsigned int baseSeed, int minValue, int maxValue, const std::string& fileName);
-    
+    void measureSinglyLinkedListInsertAt(int size, int seriesCount, unsigned int baseSeed, int minValue, int maxValue, const std::string& fileName);
 
 
 };
