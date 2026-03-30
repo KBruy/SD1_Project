@@ -5,6 +5,8 @@
 #include <functional>
 #include <string>
 #include "ArrayList.h"
+#include "SinglyLinkedList.h"
+
 
 class Research
 {
@@ -35,7 +37,17 @@ private:
                                  const std::string& measurementMode, bool requireNonEmptySize,
                                  const std::function<long long(unsigned int currentSeed)>& measureSeries);
 
+
+    //Lista Jednokierunkowa
+
+    //helper tworzący kopie listy jednokierunkowej
+    SinglyLinkedList** createSinglyLinkedListCopies(int copiesPerSeries, int size, unsigned int seed, int minValue, int maxValue);
+    //helper usuwający kopie
+    void deleteSinglyLinkedListCopies(SinglyLinkedList** lists, int copiesPerSeries);
+
 public:
+
+    //Tablica dynamiczna
     void measureArrayListPushBack(int size, int seriesCount, unsigned int baseSeed, int minValue, int maxValue, const std::string& fileName);
     void measureArrayListPushFront(int size, int seriesCount, unsigned int baseSeed, int minValue, int maxValue, const std::string& fileName);
     void measureArrayListInsertAt(int size, int seriesCount, unsigned int baseSeed, int minValue, int maxValue, const std::string& fileName);
@@ -44,6 +56,14 @@ public:
     void measureArrayListRemoveAt(int size, int seriesCount, unsigned int baseSeed, int minValue, int maxValue, const std::string& fileName);
     void measureArrayListSearch(int size, int seriesCount, unsigned int baseSeed, int minValue, int maxValue, const std::string& fileName);
 
+    // Lista jednokierunkowa
+    void measureSinglyLinkedListPushBack(int size, int seriesCount, unsigned int baseSeed, int minValue, int maxValue, const std::string& fileName);
+    void measureSinglyLinkedListPushFront(int size, int seriesCount, unsigned int baseSeed, int minValue, int maxValue, const std::string& fileName);
+    void measureSinglyLinkedListInsertAt(int size, int seriesCount, unsigned int baseSeed, int minValue, int maxValue, const std::string& fileName);
+    void measureSinglyLinkedListRemoveBack(int size, int seriesCount, unsigned int baseSeed, int minValue, int maxValue, const std::string& fileName);
+    void measureSinglyLinkedListRemoveFront(int size, int seriesCount, unsigned int baseSeed, int minValue, int maxValue, const std::string& fileName);
+    void measureSinglyLinkedListRemoveAt(int size, int seriesCount, unsigned int baseSeed, int minValue, int maxValue, const std::string& fileName);
+    void measureSinglyLinkedListSearch(int size, int seriesCount, unsigned int baseSeed, int minValue, int maxValue, const std::string& fileName);
 };
 
 #endif

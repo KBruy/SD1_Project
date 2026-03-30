@@ -36,7 +36,7 @@ void Menu::run()
                 handleArrayListMenu();
                 break;
             case 2:
-                cout << "not yet" << endl;
+                handleSinglyLinkedListMenu();
                 break;
             case 3:
                 cout << "not yet" << endl;
@@ -52,6 +52,9 @@ void Menu::run()
     } while (choice !=4);
     
 }
+
+//=============================================
+// Tablica dynamiczna
 
 void Menu::showArrayListMenu()
 {
@@ -465,6 +468,437 @@ void Menu::handleResearchMenu()
         cout << "Niepoprawna opcja!" << endl;
             break;
         }
+    } while (choice != 8);
+    
+}
+
+//===============================================================
+//Lista jednokierunkowa
+
+void Menu::showSinglyLinkedListMenu()
+{
+    cout << endl;
+    cout << "=== Lista Jednokierunkowa ===" << endl;
+    cout << "1. Utworz losowa strukture" << endl;
+    cout << "2. Dodaj element na koniec" << endl;
+    cout << "3. Dodaj element na poczatek" << endl;
+    cout << "4. Dodaj element na wybrany indeks" << endl;
+    cout << "5. Usun element z konca" << endl;
+    cout << "6. Usun element z poczatku" << endl;
+    cout << "7. Usun element z losowego indexu" << endl;
+    cout << "8. Wyszukaj wartosc" << endl;
+    cout << "9. Wyswietl liste" << endl;
+    cout << "10. Wyczysc strukture" << endl;
+    cout << "11. Menu pomiarow" << endl;
+    cout << "12. Powrot do menu glownego" << endl;
+    cout << "---> ";
+}
+
+void Menu::handleSinglyLinkedListMenu()
+{
+    int choice;
+
+    do
+    {
+        showSinglyLinkedListMenu();
+        cin >> choice;
+
+        switch (choice)
+        {
+            case 1:
+            {
+                int count;
+
+                cout << "Podaj rozmiar struktury: ";
+                cin >> count;
+
+                cout << "Podaj minimalna wartosc (standardowo 0): ";
+                cin >> minRandomValue;
+
+                cout << "Podaj maksymalna wartosc (standardowo 16777215): ";
+                cin >> maxRandomValue;
+
+                if (count < 0 || minRandomValue > maxRandomValue)
+                {
+                    cout << "Niepoprawne dane!" << endl;
+                    break;
+                }
+
+                singlyLinkedList.clear();
+                srand(seed);
+
+                for (int i = 0; i < count; i++)
+                {
+                    int value = generateRandomNumber(minRandomValue, maxRandomValue);
+                    singlyLinkedList.pushBack(value);
+                }
+
+                randomSinglyStructureCreated = true;
+                cout << "Utworzono losowa strukture." << endl;
+                break;
+            }
+
+            case 2:
+            {
+                if (!randomSinglyStructureCreated)
+                {
+                    cout << "Najpierw utworz losowa strukture!" << endl;
+                    break;
+                }
+
+                int value = generateRandomNumber(minRandomValue, maxRandomValue);
+                singlyLinkedList.pushBack(value);
+
+                cout << "Dodano losowy element na koniec: " << value << endl;
+                break;
+            }
+
+            case 3:
+            {
+                if (!randomSinglyStructureCreated)
+                {
+                    cout << "Najpierw utworz losowa strukture!" << endl;
+                    break;
+                }
+
+                int value = generateRandomNumber(minRandomValue, maxRandomValue);
+                singlyLinkedList.pushFront(value);
+
+                cout << "Dodano losowy element na poczatek: " << value << endl;
+                break;
+            }
+
+            case 4:
+            {
+                if (!randomSinglyStructureCreated)
+                {
+                    cout << "Najpierw utworz losowa strukture!" << endl;
+                    break;
+                }
+
+                int value = generateRandomNumber(minRandomValue, maxRandomValue);
+                int index = generateRandomNumber(0, singlyLinkedList.getSize());
+
+                singlyLinkedList.insertAt(index, value);
+
+                cout << "Dodano losowy element " << value << " na indeks " << index << endl;
+                break;
+            }
+
+            case 5:
+            {
+                singlyLinkedList.removeBack();
+                break;
+            }
+
+            case 6:
+            {
+                singlyLinkedList.removeFront();
+                break;
+            }
+
+            case 7:
+            {
+                if (!randomSinglyStructureCreated)
+                {
+                    cout << "Najpierw utworz losowa strukture! " << endl;
+                    break;
+                }
+                if (singlyLinkedList.isEmpty())
+                {
+                    cout << "Lista jest pusta! " << endl;
+                    break;
+                }
+
+                int index = generateRandomNumber(0, singlyLinkedList.getSize() - 1);
+                singlyLinkedList.removeAt(index);
+
+                cout << "Usunieto element z losowego indeksu: " << index << endl;
+                break;
+            }
+
+            case 8:
+            {
+                if (!randomSinglyStructureCreated)
+                {
+                    cout << "Najpierw utworz losowa strukture!" << endl;
+                    break;
+                }
+
+                if (singlyLinkedList.isEmpty()){
+                    cout << "Lista jest pusta!" << endl;
+                    break;
+
+                }
+
+                int randomIndex = generateRandomNumber(0, singlyLinkedList.getSize() - 1);
+                int value = singlyLinkedList.getValueAt(randomIndex);
+
+                cout <<" Losowo wybrano indeks: " << randomIndex << ", wartosc do wyszukania: " << value << endl;
+
+                int foundIndex = singlyLinkedList.search(value);
+                cout << "Wynik wyszukiwania (indeks): " << foundIndex << endl;
+                break;
+
+            }
+
+            case 9:
+            {
+                singlyLinkedList.print();
+                break;
+            }
+
+            case 10:
+            {
+                singlyLinkedList.clear();
+                randomSinglyStructureCreated = false;
+                cout << "Struktura zostala wyczyszczona." << endl;
+                break;
+            }
+
+            case 11:
+            {
+                handleSinglyResearchMenu();
+                break;
+            }
+
+            case 12:
+            {
+                cout << "Powrot do menu glownego." << endl;
+                break;
+            }
+
+            default:
+            {
+                cout << "Niepoprawna opcja!" << endl;
+                break;
+            }
+        }
+
+    } while (choice != 12);
+}
+
+
+void Menu::showSinglyResearchMenu()
+{
+    cout << endl;
+    cout << "==== Menu Pomiarow: Lista Jednokierunkowa ====" << endl;
+    cout << "1. Zmierz pushBack" << endl;
+    cout << "2. Zmierz pushFront" << endl;
+    cout << "3. Zmierz insertAt" << endl;
+    cout << "4. Zmierz removeBack" << endl;
+    cout << "5. Zmierz removeFront" << endl;
+    cout << "6. Zmierz removeAt" << endl;
+    cout << "7. Zmierz search" << endl;
+    cout << "8. Powrot do menu listy jednokierunkowej" << endl;
+    cout << "----> ";
+}
+
+void Menu::handleSinglyResearchMenu()
+{
+    int choice;
+    do
+    {
+        showSinglyResearchMenu();
+        cin >> choice;
+
+        switch(choice)
+        {
+            case 1:
+            {
+                int size;
+                int seriesCount;
+                string fileName;
+
+                cout << "Podaj rozmiar poczatkowy struktury: ";
+                cin >> size;
+
+                cout << "Podaj liczbe serii: ";
+                cin >> seriesCount;
+
+                cout << "Podaj nazwe pliku: ";
+                cin >> fileName;
+
+                if (size < 0 || seriesCount <= 0)
+                {
+                    cout << "Niepoprawne dane!" << endl;
+                    break;
+                }
+
+                research.measureSinglyLinkedListPushBack(size, seriesCount, seed, minRandomValue, maxRandomValue, fileName);
+
+                break;
+            }
+
+            case 2:
+            {
+                int size;
+                int seriesCount;
+                string fileName;
+
+                cout << "Podaj rozmiar poczatkowy struktury: ";
+                cin >> size;
+
+                cout << "Podaj liczbe serii: ";
+                cin >> seriesCount;
+
+                cout << "Podaj nazwe pliku txt: ";
+                cin >> fileName;
+
+                if (size < 0 || seriesCount <= 0)
+                {
+                    cout << "Niepoprawne dane!" << endl;
+                    break;
+                }
+
+                research.measureSinglyLinkedListPushFront(size, seriesCount, seed,
+                                                        minRandomValue, maxRandomValue, fileName);
+                break;
+            }
+
+            case 3:
+            {
+                int size;
+                int seriesCount;
+                string fileName;
+
+                cout << "Podaj rozmiar poczatkowy struktury: ";
+                cin >> size;
+
+                cout << "Podaj liczbe serii: ";
+                cin >> seriesCount;
+
+                cout << "Podaj nazwe pliku txt: ";
+                cin >> fileName;
+
+                if (size < 0 || seriesCount <= 0)
+                {
+                    cout << "Niepoprawne dane!" << endl;
+                    break;
+                }
+
+                research.measureSinglyLinkedListInsertAt(size, seriesCount, seed,
+                                                        minRandomValue, maxRandomValue, fileName);
+                break;
+            }
+
+            case 4:
+            {
+                int size;
+                int seriesCount;
+                string fileName;
+
+                cout << "Podaj rozmiar poczatkowy struktury: ";
+                cin >> size;
+
+                cout << "Podaj liczbe serii: ";
+                cin >> seriesCount;
+
+                cout << "Podaj nazwe pliku txt: ";
+                cin >> fileName;
+
+                if (size <= 0 || seriesCount <= 0)
+                {
+                    cout << "Niepoprawne dane!" << endl;
+                    break;
+                }
+
+                research.measureSinglyLinkedListRemoveBack(size, seriesCount, seed,
+                                                        minRandomValue, maxRandomValue, fileName);
+                break;
+            }
+
+            case 5:
+            {
+                int size;
+                int seriesCount;
+                string fileName;
+
+                cout << "Podaj rozmiar poczatkowy struktury: ";
+                cin >> size;
+
+                cout << "Podaj liczbe serii: ";
+                cin >> seriesCount;
+
+                cout << "Podaj nazwe pliku txt: ";
+                cin >> fileName;
+
+                if (size <= 0 || seriesCount <= 0)
+                {
+                    cout << "Niepoprawne dane!" << endl;
+                    break;
+                }
+
+                research.measureSinglyLinkedListRemoveFront(size, seriesCount, seed,
+                                                            minRandomValue, maxRandomValue, fileName);
+                break;
+            }
+
+            case 6:
+                {
+                    int size;
+                    int seriesCount;
+                    string fileName;
+
+                    cout << "Podaj rozmiar poczatkowy struktury: ";
+                    cin >> size;
+
+                    cout << "Podaj liczbe serii: ";
+                    cin >> seriesCount;
+
+                    cout << "Podaj nazwe pliku txt: ";
+                    cin >> fileName;
+
+                    if (size <= 0 || seriesCount <= 0)
+                    {
+                        cout << "Niepoprawne dane!" << endl;
+                        break;
+                    }
+
+                    research.measureSinglyLinkedListRemoveAt(size, seriesCount, seed,
+                                                            minRandomValue, maxRandomValue, fileName);
+                    break;
+                }
+
+            case 7:
+                {
+                int size;
+                int seriesCount;
+                string fileName;
+
+                cout << "Podaj rozmiar poczatkowy struktury: ";
+                cin >> size;
+
+                cout << "Podaj liczbe serii: ";
+                cin >> seriesCount;
+
+                cout << "Podaj nazwe pliku txt: ";
+                cin >> fileName;
+
+                if (size <= 0 || seriesCount <= 0)
+                {
+                    cout << "Niepoprawne dane!" << endl;
+                    break;
+                }
+
+                research.measureSinglyLinkedListSearch(size, seriesCount, seed,
+                                                    minRandomValue, maxRandomValue, fileName);
+                break;
+                }
+
+            case 8:
+            {
+                cout << "Powrot do menu listy jednokierunkowej." << endl;
+                break;
+            }
+
+            default:
+            {
+                cout << "Niepoprawna opcja!" << endl;
+                break;
+            }
+        }
+
     } while (choice != 8);
     
 }
