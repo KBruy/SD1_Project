@@ -478,3 +478,54 @@ void Research::measureSinglyLinkedListPushBack(int size, int seriesCount, unsign
 
     printMeasurementSummary("pushBack (SinglyLinkedList)", averageTime, fileName);
 }
+
+void Research::measureSinglyLinkedListPushFront(int size, int seriesCount, unsigned int baseSeed, int minValue, int maxValue, const string& fileName)
+{
+    if (!validateMeasurementParameters(size, seriesCount, minValue, maxValue, false))
+    {
+        return;
+    }
+
+    ofstream file;
+
+    if (!openReportFile(file, fileName))
+    {
+        return;
+    }
+
+    long long totalTime = 0;
+
+    writeReportHeader(file, "pushFront", "jedno pushFront na kopie", size, seriesCount, baseSeed, minValue, maxValue, COPIES_PER_SERIES);
+
+    for (int i = 0; i < seriesCount; i++)
+    {
+        unsigned int currentSeed = baseSeed + i;
+
+        SinglyLinkedList** lists = createSinglyLinkedListCopies(COPIES_PER_SERIES, size, currentSeed, minValue, maxValue);
+        int* preparedValues = prepareRandomValues(COPIES_PER_SERIES, minValue, maxValue);
+
+        auto start = chrono::steady_clock::now();
+        for (int j = 0; j < COPIES_PER_SERIES; j++)
+        {
+            lists[j]->pushFront(preparedValues[j]);
+        }
+
+        auto stop = chrono::steady_clock::now();
+
+        long long duration = chrono::duration_cast<chrono::nanoseconds>(stop-start).count();
+        double oneOperationTime = static_cast<double>(duration) / COPIES_PER_SERIES;
+
+        totalTime += duration;
+        writeSeriesResult(file, i+1, oneOperationTime);
+
+        deleteSinglyLinkedCopies(lists, COPIES_PER_SERIES);
+        delete[] preparedValues;
+    }
+
+    double averageTime = static_cast<double>(totalTime) / (seriesCount * COPIES_PER_SERIES);
+    
+    writeReportFooter(file, averageTime);
+    file.close();
+
+    printMeasurementSummary("pushFront (SinglyLinkedList)", averageTime, fileName);
+}
