@@ -258,6 +258,8 @@ void Menu::showResearchMenu()
 {
     cout << endl;
     cout << "==== Menu Pomiarow: ArrayList ====" << endl;
+    cout << "Pomiar: 10 serii po 10 kopii, seed 12345, zakres [0, 16777215]" << endl;
+    cout << "Wyniki sa zapisywane do pliku: pomiary.txt" << endl;
     cout << "1. Zmierz pushBack" << endl;
     cout << "2. Zmierz pushFront" << endl;
     cout << "3. Zmierz insertAt" << endl;
@@ -283,177 +285,119 @@ void Menu::handleResearchMenu()
         case 1:
         {
             int size;
-            int seriesCount;
-            string fileName;
 
             cout << "Podaj rozmiar poczatkowoy struktury: ";
             cin >> size;
 
-            cout << "Podaj liczbe serii: ";
-            cin >> seriesCount;
-
-            cout << "Podaj nazwe pliku txt: ";
-            cin >> fileName;
-
-            if (size < 0 || seriesCount <= 0)
+            if (size < 0)
             {
                 cout << "Niepoprawne dane!" << endl;
                 break;
             }
 
-            research.measureArrayListPushBack(size, seriesCount, seed, minRandomValue, maxRandomValue, fileName);
+            research.measureArrayListPushBack(size);
             break;
         }
 
         case 2:
         {
             int size;
-            int seriesCount;
-            string fileName;
 
             cout << "Podaj rozmiar poczatkowy struktury: ";
             cin >> size;
 
-            cout << "Podaj liczbe serii: ";
-            cin >> seriesCount;
-
-            cout << "Podaj nazwe pliku txt: ";
-            cin >> fileName;
-
-            if (size < 0 || seriesCount <= 0)
+            if (size < 0)
             {
                 cout << "Niepoprawne dane!" << endl;
                 break;
             }
 
-            research.measureArrayListPushFront(size, seriesCount, seed,
-                                       minRandomValue, maxRandomValue, fileName);
+            research.measureArrayListPushFront(size);
             break;
         }
 
         case 3:
         {
             int size;
-            int seriesCount;
-            string fileName;
 
             cout << "Podaj rozmiar poczatkowy struktury: ";
             cin >> size;
 
-            cout << "Podaj liczbe serii: ";
-            cin >> seriesCount;
-
-            cout << "Podaj nazwe pliku txt: ";
-            cin >> fileName;
-
-            if (size < 0 || seriesCount <= 0)
+            if (size < 0)
             {
                 cout << "Niepoprawne dane!" << endl;
                 break;
             }
 
-            research.measureArrayListInsertAt(size, seriesCount, seed, minRandomValue, maxRandomValue, fileName);
+            research.measureArrayListInsertAt(size);
             break;
         }
         
         case 4:
         {
             int size;
-            int seriesCount;
-            string fileName;
 
             cout << "Podaj rozmiar poczatkowy struktury: ";
             cin >> size;
 
-            cout << "Podaj liczbe serii: ";
-            cin >> seriesCount;
-
-            cout << "Podaj nazwe pliku txt: ";
-            cin >> fileName;
-
-            if (size <= 0 || seriesCount <= 0)
+            if (size <= 0)
             {
                 cout << "Niepoprawne dane!" << endl;
                 break;
             }
 
-            research.measureArrayListRemoveBack(size, seriesCount, seed, minRandomValue, maxRandomValue, fileName);
+            research.measureArrayListRemoveBack(size);
             break;
         }
         
         case 5:
         {
             int size;
-            int seriesCount;
-            string fileName;
 
             cout << "Podaj rozmiar poczatkowy struktury: ";
             cin >> size;
 
-            cout << "Podaj liczbe serii: ";
-            cin >> seriesCount;
-
-            cout << "Podaj nazwe pliku txt: ";
-            cin >> fileName;
-
-            if (size <= 0 || seriesCount <= 0)
+            if (size <= 0)
             {
                 cout << "Niepoprawne dane!" << endl;
                 break;
             }
 
-            research.measureArrayListRemoveFront(size, seriesCount, seed,
-                                                minRandomValue, maxRandomValue, fileName);
+            research.measureArrayListRemoveFront(size);
             break;
         }
         
         case 6:
         {
             int size;
-            int seriesCount;
-            string fileName;
 
             cout << "Podaj rozmiar poczatkowy struktury: ";
             cin >> size;
 
-            cout << "Podaj liczbe serii: ";
-            cin >> seriesCount;
-
-            cout << "Podaj nazwe pliku txt: ";
-            cin >> fileName;
-
-            if (size <= 0 || seriesCount <= 0)
+            if (size <= 0)
             {
                 cout << "Niepoprawne dane!" << endl;
                 break;
             }
 
-            research.measureArrayListRemoveAt(size, seriesCount, seed, minRandomValue, maxRandomValue, fileName);
+            research.measureArrayListRemoveAt(size);
             break;
         }
         
         case 7:
         {
             int size;
-            int seriesCount;
-            string fileName;
 
             cout << "Podaj rozmiar poczatkowy struktury: ";
             cin >> size;
 
-            cout <<"Podaj liczbe serii: ";
-            cin >> seriesCount;
-
-            cout <<"Podaj nazwe pliku txt: ";
-            cin >> fileName;
-
-            if (size <= 0 || seriesCount <=0)
+            if (size <= 0)
             {
                 cout << "Niepoprawne dane!" << endl;
                 break;
             }
 
-            research.measureArrayListSearch(size, seriesCount, seed, minRandomValue, maxRandomValue, fileName);
+            research.measureArrayListSearch(size);
             break;
         }
         
@@ -683,6 +627,8 @@ void Menu::showSinglyResearchMenu()
 {
     cout << endl;
     cout << "==== Menu Pomiarow: Lista Jednokierunkowa ====" << endl;
+    cout << "Pomiar: 10 serii po 10 kopii, seed 12345, zakres [0, 16777215]" << endl;
+    cout << "Wyniki sa zapisywane do pliku: pomiary.txt" << endl;
     cout << "1. Zmierz pushBack" << endl;
     cout << "2. Zmierz pushFront" << endl;
     cout << "3. Zmierz insertAt" << endl;
@@ -707,25 +653,17 @@ void Menu::handleSinglyResearchMenu()
             case 1:
             {
                 int size;
-                int seriesCount;
-                string fileName;
 
                 cout << "Podaj rozmiar poczatkowy struktury: ";
                 cin >> size;
 
-                cout << "Podaj liczbe serii: ";
-                cin >> seriesCount;
-
-                cout << "Podaj nazwe pliku: ";
-                cin >> fileName;
-
-                if (size < 0 || seriesCount <= 0)
+                if (size < 0)
                 {
                     cout << "Niepoprawne dane!" << endl;
                     break;
                 }
 
-                research.measureSinglyLinkedListPushBack(size, seriesCount, seed, minRandomValue, maxRandomValue, fileName);
+                research.measureSinglyLinkedListPushBack(size);
 
                 break;
             }
@@ -733,156 +671,102 @@ void Menu::handleSinglyResearchMenu()
             case 2:
             {
                 int size;
-                int seriesCount;
-                string fileName;
 
                 cout << "Podaj rozmiar poczatkowy struktury: ";
                 cin >> size;
 
-                cout << "Podaj liczbe serii: ";
-                cin >> seriesCount;
-
-                cout << "Podaj nazwe pliku txt: ";
-                cin >> fileName;
-
-                if (size < 0 || seriesCount <= 0)
+                if (size < 0)
                 {
                     cout << "Niepoprawne dane!" << endl;
                     break;
                 }
 
-                research.measureSinglyLinkedListPushFront(size, seriesCount, seed,
-                                                        minRandomValue, maxRandomValue, fileName);
+                research.measureSinglyLinkedListPushFront(size);
                 break;
             }
 
             case 3:
             {
                 int size;
-                int seriesCount;
-                string fileName;
 
                 cout << "Podaj rozmiar poczatkowy struktury: ";
                 cin >> size;
 
-                cout << "Podaj liczbe serii: ";
-                cin >> seriesCount;
-
-                cout << "Podaj nazwe pliku txt: ";
-                cin >> fileName;
-
-                if (size < 0 || seriesCount <= 0)
+                if (size < 0)
                 {
                     cout << "Niepoprawne dane!" << endl;
                     break;
                 }
 
-                research.measureSinglyLinkedListInsertAt(size, seriesCount, seed,
-                                                        minRandomValue, maxRandomValue, fileName);
+                research.measureSinglyLinkedListInsertAt(size);
                 break;
             }
 
             case 4:
             {
                 int size;
-                int seriesCount;
-                string fileName;
 
                 cout << "Podaj rozmiar poczatkowy struktury: ";
                 cin >> size;
 
-                cout << "Podaj liczbe serii: ";
-                cin >> seriesCount;
-
-                cout << "Podaj nazwe pliku txt: ";
-                cin >> fileName;
-
-                if (size <= 0 || seriesCount <= 0)
+                if (size <= 0)
                 {
                     cout << "Niepoprawne dane!" << endl;
                     break;
                 }
 
-                research.measureSinglyLinkedListRemoveBack(size, seriesCount, seed,
-                                                        minRandomValue, maxRandomValue, fileName);
+                research.measureSinglyLinkedListRemoveBack(size);
                 break;
             }
 
             case 5:
             {
                 int size;
-                int seriesCount;
-                string fileName;
 
                 cout << "Podaj rozmiar poczatkowy struktury: ";
                 cin >> size;
 
-                cout << "Podaj liczbe serii: ";
-                cin >> seriesCount;
-
-                cout << "Podaj nazwe pliku txt: ";
-                cin >> fileName;
-
-                if (size <= 0 || seriesCount <= 0)
+                if (size <= 0)
                 {
                     cout << "Niepoprawne dane!" << endl;
                     break;
                 }
 
-                research.measureSinglyLinkedListRemoveFront(size, seriesCount, seed,
-                                                            minRandomValue, maxRandomValue, fileName);
+                research.measureSinglyLinkedListRemoveFront(size);
                 break;
             }
 
             case 6:
                 {
                     int size;
-                    int seriesCount;
-                    string fileName;
 
                     cout << "Podaj rozmiar poczatkowy struktury: ";
                     cin >> size;
 
-                    cout << "Podaj liczbe serii: ";
-                    cin >> seriesCount;
-
-                    cout << "Podaj nazwe pliku txt: ";
-                    cin >> fileName;
-
-                    if (size <= 0 || seriesCount <= 0)
+                    if (size <= 0)
                     {
                         cout << "Niepoprawne dane!" << endl;
                         break;
                     }
 
-                    research.measureSinglyLinkedListRemoveAt(size, seriesCount, seed,
-                                                            minRandomValue, maxRandomValue, fileName);
+                    research.measureSinglyLinkedListRemoveAt(size);
                     break;
                 }
 
             case 7:
                 {
                 int size;
-                int seriesCount;
-                string fileName;
 
                 cout << "Podaj rozmiar poczatkowy struktury: ";
                 cin >> size;
 
-                cout << "Podaj liczbe serii: ";
-                cin >> seriesCount;
-
-                cout << "Podaj nazwe pliku txt: ";
-                cin >> fileName;
-
-                if (size <= 0 || seriesCount <= 0)
+                if (size <= 0)
                 {
                     cout << "Niepoprawne dane!" << endl;
                     break;
                 }
 
-                research.measureSinglyLinkedListSearch(size, seriesCount, seed,
-                                                    minRandomValue, maxRandomValue, fileName);
+                research.measureSinglyLinkedListSearch(size);
                 break;
                 }
 
