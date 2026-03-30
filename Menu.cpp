@@ -678,6 +678,7 @@ void Menu::handleSinglyLinkedListMenu()
     } while (choice != 12);
 }
 
+
 void Menu::showSinglyResearchMenu()
 {
     cout << endl;
@@ -688,7 +689,8 @@ void Menu::showSinglyResearchMenu()
     cout << "4. Zmierz removeBack" << endl;
     cout << "5. Zmierz removeFront" << endl;
     cout << "6. Zmierz removeAt" << endl;
-    cout << "7. Powrot do menu listy jednokierunkowej" << endl;
+    cout << "7. Zmierz search" << endl;
+    cout << "8. Powrot do menu listy jednokierunkowej" << endl;
     cout << "----> ";
 }
 
@@ -859,6 +861,32 @@ void Menu::handleSinglyResearchMenu()
                 }
 
             case 7:
+                {
+                int size;
+                int seriesCount;
+                string fileName;
+
+                cout << "Podaj rozmiar poczatkowy struktury: ";
+                cin >> size;
+
+                cout << "Podaj liczbe serii: ";
+                cin >> seriesCount;
+
+                cout << "Podaj nazwe pliku txt: ";
+                cin >> fileName;
+
+                if (size <= 0 || seriesCount <= 0)
+                {
+                    cout << "Niepoprawne dane!" << endl;
+                    break;
+                }
+
+                research.measureSinglyLinkedListSearch(size, seriesCount, seed,
+                                                    minRandomValue, maxRandomValue, fileName);
+                break;
+                }
+
+            case 8:
             {
                 cout << "Powrot do menu listy jednokierunkowej." << endl;
                 break;
@@ -871,6 +899,6 @@ void Menu::handleSinglyResearchMenu()
             }
         }
 
-    } while (choice != 7);
+    } while (choice != 8);
     
 }
