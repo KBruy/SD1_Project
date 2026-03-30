@@ -43,7 +43,7 @@ private:
     //helper tworzący kopie listy jednokierunkowej
     SinglyLinkedList** createSinglyLinkedListCopies(int copiesPerSeries, int size, unsigned int seed, int minValue, int maxValue);
     //helper usuwający kopie
-    void deleteSinglyLinkedCopies(SinglyLinkedList** lists, int copiesPerSeries);
+    void deleteSinglyLinkedListCopies(SinglyLinkedList** lists, int copiesPerSeries);
 
 public:
 
@@ -60,8 +60,8 @@ public:
     void measureSinglyLinkedListPushBack(int size, int seriesCount, unsigned int baseSeed, int minValue, int maxValue, const std::string& fileName);
     void measureSinglyLinkedListPushFront(int size, int seriesCount, unsigned int baseSeed, int minValue, int maxValue, const std::string& fileName);
     void measureSinglyLinkedListInsertAt(int size, int seriesCount, unsigned int baseSeed, int minValue, int maxValue, const std::string& fileName);
-
-
+    void measureSinglyLinkedListRemoveBack(int size, int seriesCount, unsigned int baseSeed, int minValue, int maxValue, const std::string& fileName);
+    
 };
 
 #endif
