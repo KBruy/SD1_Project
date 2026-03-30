@@ -1,0 +1,24 @@
+==========================
+Struktura: ArrayList
+Operacja: search
+Tryb pomiaru: jedno search na kazdej z identycznych kopii, szukany element istnieje i ma losowa pozycje
+Rozmiar poczatkowy: 25000
+Liczba serii: 10
+Seed bazowy: 12345
+Zakres losowania: [0, 16777215]
+Liczba kopii w serii: 100
+
+Seria 1: 13328.3 ns/op
+Seria 2: 10467.5 ns/op
+Seria 3: 10065.8 ns/op
+Seria 4: 10724.6 ns/op
+Seria 5: 9066.67 ns/op
+Seria 6: 10700.8 ns/op
+Seria 7: 11112.5 ns/op
+Seria 8: 10382.5 ns/op
+Seria 9: 10690.8 ns/op
+Seria 10: 9936.25 ns/op
+
+Sredni czas: 10647.6 ns/op
+==========================
+
