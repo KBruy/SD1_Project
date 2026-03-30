@@ -62,6 +62,7 @@ public:
     void measureSinglyLinkedListInsertAt(int size, int seriesCount, unsigned int baseSeed, int minValue, int maxValue, const std::string& fileName);
     void measureSinglyLinkedListRemoveBack(int size, int seriesCount, unsigned int baseSeed, int minValue, int maxValue, const std::string& fileName);
     void measureSinglyLinkedListRemoveFront(int size, int seriesCount, unsigned int baseSeed, int minValue, int maxValue, const std::string& fileName);
+    void measureSinglyLinkedListRemoveAt(int size, int seriesCount, unsigned int baseSeed, int minValue, int maxValue, const std::string& fileName);
 };
 
 #endif
