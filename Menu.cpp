@@ -686,7 +686,8 @@ void Menu::showSinglyResearchMenu()
     cout << "2. Zmierz pushFront" << endl;
     cout << "3. Zmierz insertAt" << endl;
     cout << "4. Zmierz removeBack" << endl;
-    cout << "5. Powrot do menu listy jednokierunkowej" << endl;
+    cout << "5. Zmierz removeFront" << endl;
+    cout << "6. Powrot do menu listy jednokierunkowej" << endl;
     cout << "----> ";
 }
 
@@ -806,6 +807,32 @@ void Menu::handleSinglyResearchMenu()
 
             case 5:
             {
+                int size;
+                int seriesCount;
+                string fileName;
+
+                cout << "Podaj rozmiar poczatkowy struktury: ";
+                cin >> size;
+
+                cout << "Podaj liczbe serii: ";
+                cin >> seriesCount;
+
+                cout << "Podaj nazwe pliku txt: ";
+                cin >> fileName;
+
+                if (size <= 0 || seriesCount <= 0)
+                {
+                    cout << "Niepoprawne dane!" << endl;
+                    break;
+                }
+
+                research.measureSinglyLinkedListRemoveFront(size, seriesCount, seed,
+                                                            minRandomValue, maxRandomValue, fileName);
+                break;
+            }
+
+            case 6:
+            {
                 cout << "Powrot do menu listy jednokierunkowej." << endl;
                 break;
             }
@@ -817,6 +844,6 @@ void Menu::handleSinglyResearchMenu()
             }
         }
 
-    } while (choice != 5);
+    } while (choice != 6);
     
 }
