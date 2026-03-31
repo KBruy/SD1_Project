@@ -4,6 +4,7 @@
 #include "ArrayList.h"
 #include "Research.h"
 #include "SinglyLinkedList.h"
+#include "DoublyLinkedList.h"
 
 class Menu
 {
@@ -14,11 +15,11 @@ class Menu
     ArrayList arrayList; //obiekt tablicy dynamicznej
     Research research; //obiekt badan
 
-    SinglyLinkedList singlyLinkedList; //obiekt listy jednokierunkowej
+    //Lista dwukierunkowa
+    DoublyLinkedList doublyLinkedList;
+    bool randomDoublyStructureCreated = false;
 
-    bool randomStructureCreated = false; // flaga, dla false - nie utworzono jeszcze sensownej losowej struktury
-                                        // dla true - struktura została już przygotowana przez opcję tworzenia losowej struktury
-                                        // zabezpieczenie przed operacjami na niechcianych strukturach
+    SinglyLinkedList singlyLinkedList; //obiekt listy jednokierunkowej
 
     void showMainMenu(); //metoda pokazywania głównego menu
 
@@ -32,6 +33,12 @@ class Menu
     bool randomSinglyStructureCreated = false;
     void showSinglyLinkedListMenu();
     void handleSinglyLinkedListMenu();
+
+    //=================================
+    //Lista dwukierunkowa
+    void showDoublyLinkedListMenu();
+    void handleDoublyLinkedListMenu();
+    bool randomStructureCreated = false;
 
      //badania
     void showResearchMenu();

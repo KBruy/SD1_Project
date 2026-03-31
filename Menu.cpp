@@ -39,7 +39,7 @@ void Menu::run()
                 handleSinglyLinkedListMenu();
                 break;
             case 3:
-                cout << "not yet" << endl;
+                handleDoublyLinkedListMenu();
                 break;
             case 4:
                 cout << "Koniec" << endl;
@@ -785,4 +785,207 @@ void Menu::handleSinglyResearchMenu()
 
     } while (choice != 8);
     
+}
+
+
+//=================================================================
+//=================================================================
+
+//Lista dwukierunkowa
+
+void Menu::showDoublyLinkedListMenu()
+{
+    cout << endl;
+    cout << "=== Lista Dwukierunkowa ===" << endl;
+    cout << "1. Utworz losowa strukture" << endl;
+    cout << "2. Dodaj element na koniec" << endl;
+    cout << "3. Dodaj element na poczatek" << endl;
+    cout << "4. Dodaj element na wybrany indeks" << endl;
+    cout << "5. Usun element z konca" << endl;
+    cout << "6. Usun element z poczatku" << endl;
+    cout << "7. Usun element z losowego indeksu" << endl;
+    cout << "8. Wyszukaj wartosc" << endl;
+    cout << "9. Wyswietl liste" << endl;
+    cout << "10. Wyczysc strukture" << endl;
+    cout << "11. Powrot do menu glownego" << endl;
+    cout << "---> ";
+}
+
+void Menu::handleDoublyLinkedListMenu()
+{
+    int choice;
+
+    do
+    {
+        showDoublyLinkedListMenu();
+        cin >> choice;
+
+        switch (choice)
+        {
+            case 1:
+            {
+                int count;
+
+                cout << "Podaj rozmiar struktury: ";
+                cin >> count;
+
+                cout << "Podaj minimalna wartosc (standardowo 0): ";
+                cin >> minRandomValue;
+
+                cout << "Podaj maksymalna wartosc (standardowo 16777215): ";
+                cin >> maxRandomValue;
+
+                if (count < 0 || minRandomValue > maxRandomValue)
+                {
+                    cout << "Niepoprawne dane!" << endl;
+                    break;
+                }
+
+                doublyLinkedList.clear();
+                srand(seed);
+
+                for (int i = 0; i < count; i++)
+                {
+                    int value = generateRandomNumber(minRandomValue, maxRandomValue);
+                    doublyLinkedList.pushBack(value);
+                }
+
+                randomDoublyStructureCreated = true;
+                cout << "Utworzono losowa strukture." << endl;
+                break;
+            }
+
+            case 2:
+            {
+                if (!randomDoublyStructureCreated)
+                {
+                    cout << "Najpierw utworz losowa strukture!" << endl;
+                    break;
+                }
+
+                int value = generateRandomNumber(minRandomValue, maxRandomValue);
+                doublyLinkedList.pushBack(value);
+
+                cout << "Dodano losowy element na koniec: " << value << endl;
+                break;
+            }
+
+            case 3:
+            {
+                if (!randomDoublyStructureCreated)
+                {
+                    cout << "Najpierw utworz losowa strukture!" << endl;
+                    break;
+                }
+
+                int value = generateRandomNumber(minRandomValue, maxRandomValue);
+                doublyLinkedList.pushFront(value);
+
+                cout << "Dodano losowy element na poczatek: " << value << endl;
+                break;
+            }
+
+            case 4:
+            {
+                if (!randomDoublyStructureCreated)
+                {
+                    cout << "Najpierw utworz losowa strukture!" << endl;
+                    break;
+                }
+
+                int value = generateRandomNumber(minRandomValue, maxRandomValue);
+                int index = generateRandomNumber(0, doublyLinkedList.getSize());
+
+                doublyLinkedList.insertAt(index, value);
+
+                cout << "Dodano losowy element " << value << " na indeks " << index << endl;
+                break;
+            }
+
+            case 5:
+            {
+                doublyLinkedList.removeBack();
+                break;
+            }
+
+            case 6:
+            {
+                doublyLinkedList.removeFront();
+                break;
+            }
+
+            case 7:
+            {
+                if (!randomDoublyStructureCreated)
+                {
+                    cout << "Najpierw utworz losowa strukture!" << endl;
+                    break;
+                }
+
+                if (doublyLinkedList.isEmpty())
+                {
+                    cout << "Lista jest pusta!" << endl;
+                    break;
+                }
+
+                int index = generateRandomNumber(0, doublyLinkedList.getSize() - 1);
+                doublyLinkedList.removeAt(index);
+
+                cout << "Usunieto element z losowego indeksu: " << index << endl;
+                break;
+            }
+
+            case 8:
+            {
+                if (!randomDoublyStructureCreated)
+                {
+                    cout << "Najpierw utworz losowa strukture!" << endl;
+                    break;
+                }
+
+                if (doublyLinkedList.isEmpty())
+                {
+                    cout << "Lista jest pusta!" << endl;
+                    break;
+                }
+
+                int randomIndex = generateRandomNumber(0, doublyLinkedList.getSize() - 1);
+                int value = doublyLinkedList.getValueAt(randomIndex);
+
+                cout << "Losowo wybrano indeks: " << randomIndex
+                     << ", wartosc do wyszukania: " << value << endl;
+
+                int foundIndex = doublyLinkedList.search(value);
+                cout << "Wynik wyszukiwania (indeks): " << foundIndex << endl;
+                break;
+            }
+
+            case 9:
+            {
+                doublyLinkedList.print();
+                break;
+            }
+
+            case 10:
+            {
+                doublyLinkedList.clear();
+                randomDoublyStructureCreated = false;
+                cout << "Struktura zostala wyczyszczona." << endl;
+                break;
+            }
+
+            case 11:
+            {
+                cout << "Powrot do menu glownego." << endl;
+                break;
+            }
+
+            default:
+            {
+                cout << "Niepoprawna opcja!" << endl;
+                break;
+            }
+        }
+
+    } while (choice != 11);
 }
