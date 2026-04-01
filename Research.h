@@ -6,6 +6,7 @@
 #include <chrono>
 #include "ArrayList.h"
 #include "SinglyLinkedList.h"
+#include "DoublyLinkedList.h"
 
 class Research
 {
@@ -42,6 +43,11 @@ private:
     template <typename Operation>
     long long measureCopiesExecutionTime(int copiesCount, Operation operation);
 
+
+    DoublyLinkedList** createDoublyLinkedListCopies(int size, unsigned int seed);
+    void deleteDoublyLinkedListCopies(DoublyLinkedList** lists);
+    void prepareDoublyLinkedList(DoublyLinkedList& list, int size, unsigned int seed);
+
 public:
     // Tablica dynamiczna
     void measureArrayListPushBack(int size);
@@ -60,6 +66,15 @@ public:
     void measureSinglyLinkedListRemoveFront(int size);
     void measureSinglyLinkedListRemoveAt(int size);
     void measureSinglyLinkedListSearch(int size);
+
+    //Lista dwukierunkowa
+    void measureDoublyLinkedListPushBack(int size);
+    void measureDoublyLinkedListPushFront(int size);
+    void measureDoublyLinkedListInsertAt(int size);
+    void measureDoublyLinkedListRemoveBack(int size);
+    void measureDoublyLinkedListRemoveFront(int size);
+    void measureDoublyLinkedListRemoveAt(int size);
+    void measureDoublyLinkedListSearch(int size);
 };
 
 template <typename Operation>
