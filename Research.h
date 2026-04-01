@@ -73,6 +73,7 @@ public:
     void measureDoublyLinkedListInsertAt(int size);
     void measureDoublyLinkedListRemoveBack(int size);
     void measureDoublyLinkedListRemoveFront(int size);
+    void measureDoublyLinkedListRemoveAt(int size);
 };
 
 template <typename Operation>
