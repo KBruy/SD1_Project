@@ -1004,7 +1004,9 @@ void Menu::showDoublyResearchMenu()
     cout << "Pomiar: 10 serii po 10 kopii, seed 12345, zakres [0, 16777215]" << endl;
     cout << "Wyniki sa zapisywane do pliku: pomiary.txt" << endl;
     cout << "1. Zmierz pushBack" << endl;
-    cout << "2. Powrot do menu listy dwukierunkowej" << endl;
+    cout << "2. Zmierz pushFront" << endl;
+    cout << "3. Zmierz insertAt" << endl;
+    cout << "4. Powrot do menu listy dwukierunkowej" << endl;
     cout << "----> ";
 }
 
@@ -1038,6 +1040,40 @@ void Menu::handleDoublyResearchMenu()
 
             case 2:
             {
+                int size;
+
+                cout << "Podaj rozmiar poczatkowy struktury: ";
+                cin >> size;
+
+                if (size < 0)
+                {
+                    cout << "Niepoprawne dane!" << endl;
+                    break;
+                }
+
+                research.measureDoublyLinkedListPushFront(size);
+                break;
+            }
+
+            case 3:
+            {
+                int size;
+
+                cout << "Podaj rozmiar poczatkowy struktury: ";
+                cin >> size;
+
+                if (size < 0)
+                {
+                    cout << "Niepoprawne dane!" << endl;
+                    break;
+                }
+
+                research.measureDoublyLinkedListInsertAt(size);
+                break;
+            }
+
+            case 4:
+            {
                 cout << "Powrot do menu listy dwukierunkowej." << endl;
                 break;
             }
@@ -1047,7 +1083,7 @@ void Menu::handleDoublyResearchMenu()
                 cout << "Niepoprawna opcja!" << endl;
                 break;
             }
-        }
 
-    } while (choice != 2);
+        }
+    } while (choice != 4);
 }

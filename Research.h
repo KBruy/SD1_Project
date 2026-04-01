@@ -69,6 +69,8 @@ public:
 
     //Lista dwukierunkowa
     void measureDoublyLinkedListPushBack(int size);
+    void measureDoublyLinkedListPushFront(int size);
+    void measureDoublyLinkedListInsertAt(int size);
 };
 
 template <typename Operation>
