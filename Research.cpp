@@ -745,3 +745,87 @@ void Research::measureSinglyLinkedListSearch(int size)
 
     printMeasurementSummary("SinglyLinkedList", "search", averageTime);
 }
+
+//===================================================================================================
+//===================================================================================================
+// Lista dwukierunkowa
+
+void Research::prepareDoublyLinkedList(DoublyLinkedList& list, int size, unsigned int seed)
+{
+    list.clear();
+    srand(seed);
+
+    for (int i = 0; i < size; i++)
+    {
+        int value = generateRandomNumber();
+        list.pushBack(value);
+    }
+}
+
+DoublyLinkedList** Research::createDoublyLinkedListCopies(int size, unsigned int seed)
+{
+    DoublyLinkedList** lists = new DoublyLinkedList*[COPIES_PER_SERIES];
+
+    for (int i = 0; i < COPIES_PER_SERIES; i++)
+    {
+        lists[i] = new DoublyLinkedList();
+        prepareDoublyLinkedList(*lists[i], size, seed);
+    }
+
+    return lists;
+}
+
+void Research::deleteDoublyLinkedListCopies(DoublyLinkedList** lists)
+{
+    for (int i = 0; i < COPIES_PER_SERIES; i++)
+    {
+        delete lists[i];
+    }
+
+    delete[] lists;
+}
+
+//--------- Operacje
+
+void Research::measureDoublyLinkedListPushBack(int size)
+{
+    if (!validateMeasurementParameters(size, false))
+    {
+        return;
+    }
+
+    ofstream file;
+    if (!openReportFile(file))
+    {
+        return;
+    }
+
+    long long totalTime = 0;
+    writeReportHeader(file, "DoublyLinkedList", "pushBack", size);
+
+    for (int i = 0; i < SERIES_COUNT; i++)
+    {
+        unsigned int currentSeed = BASE_SEED + i;
+        DoublyLinkedList** lists = createDoublyLinkedListCopies(size, currentSeed);
+
+        srand(currentSeed);
+        int preparedValue = prepareRandomValue();
+
+        long long duration = measureCopiesExecutionTime(COPIES_PER_SERIES, [&](int j)
+        {
+            lists[j]->pushBack(preparedValue);
+        });
+
+        double oneOperationTime = static_cast<double>(duration) / COPIES_PER_SERIES;
+        totalTime += duration;
+        writeSeriesResult(file, i + 1, oneOperationTime);
+
+        deleteDoublyLinkedListCopies(lists);
+    }
+
+    double averageTime = static_cast<double>(totalTime) / (SERIES_COUNT * COPIES_PER_SERIES);
+    writeReportFooter(file, averageTime);
+    file.close();
+
+    printMeasurementSummary("DoublyLinkedList", "pushBack", averageTime);
+}
