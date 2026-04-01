@@ -341,3 +341,4 @@ int DoublyLinkedList::search(int value)
 
     return index;
 }
+

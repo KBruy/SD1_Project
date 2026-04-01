@@ -916,3 +916,43 @@ void Research::measureDoublyLinkedListInsertAt(int size)
 
     printMeasurementSummary("DoublyLinkedList", "insertAt", averageTime);
 }
+
+void Research::measureDoublyLinkedListRemoveBack(int size)
+{
+    if (!validateMeasurementParameters(size, true))
+    {
+        return;
+    }
+
+    ofstream file;
+    if (!openReportFile(file))
+    {
+        return;
+    }
+
+    long long totalTime = 0;
+    writeReportHeader(file, "DoublyLinkedList", "removeBack", size);
+
+    for (int i = 0; i < SERIES_COUNT; i++)
+    {
+        unsigned int currentSeed = BASE_SEED + i;
+        DoublyLinkedList** lists = createDoublyLinkedListCopies(size, currentSeed);
+
+        long long duration = measureCopiesExecutionTime(COPIES_PER_SERIES, [&](int j)
+        {
+            lists[j]->removeBack();
+        });
+
+        double oneOperationTime = static_cast<double>(duration) / COPIES_PER_SERIES;
+        totalTime += duration;
+        writeSeriesResult(file, i + 1, oneOperationTime);
+
+        deleteDoublyLinkedListCopies(lists);
+    }
+
+    double averageTime = static_cast<double>(totalTime) / (SERIES_COUNT * COPIES_PER_SERIES);
+    writeReportFooter(file, averageTime);
+    file.close();
+
+    printMeasurementSummary("DoublyLinkedList", "removeBack", averageTime);
+}

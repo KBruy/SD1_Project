@@ -1006,7 +1006,8 @@ void Menu::showDoublyResearchMenu()
     cout << "1. Zmierz pushBack" << endl;
     cout << "2. Zmierz pushFront" << endl;
     cout << "3. Zmierz insertAt" << endl;
-    cout << "4. Powrot do menu listy dwukierunkowej" << endl;
+    cout << "4. Zmierz removeBack" << endl;
+    cout << "5. Powrot do menu listy dwukierunkowej" << endl;
     cout << "----> ";
 }
 
@@ -1074,6 +1075,23 @@ void Menu::handleDoublyResearchMenu()
 
             case 4:
             {
+                int size;
+
+                cout << "Podaj rozmiar poczatkowy struktury: ";
+                cin >> size;
+
+                if (size <= 0)
+                {
+                    cout << "Niepoprawne dane!" << endl;
+                    break;
+                }
+
+                research.measureDoublyLinkedListRemoveBack(size);
+                break;
+            }
+
+            case 5:
+            {
                 cout << "Powrot do menu listy dwukierunkowej." << endl;
                 break;
             }
@@ -1085,5 +1103,5 @@ void Menu::handleDoublyResearchMenu()
             }
 
         }
-    } while (choice != 4);
+    } while (choice != 5);
 }
