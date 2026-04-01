@@ -807,7 +807,8 @@ void Menu::showDoublyLinkedListMenu()
     cout << "8. Wyszukaj wartosc" << endl;
     cout << "9. Wyswietl liste" << endl;
     cout << "10. Wyczysc strukture" << endl;
-    cout << "11. Powrot do menu glownego" << endl;
+    cout << "11. Menu pomiarow" << endl;
+    cout << "12. Powrot do menu glownego" << endl;
     cout << "---> ";
 }
 
@@ -976,6 +977,12 @@ void Menu::handleDoublyLinkedListMenu()
 
             case 11:
             {
+                handleDoublyResearchMenu();
+                break;
+            }
+
+            case 12:
+            {
                 cout << "Powrot do menu glownego." << endl;
                 break;
             }
@@ -987,5 +994,60 @@ void Menu::handleDoublyLinkedListMenu()
             }
         }
 
-    } while (choice != 11);
+    } while (choice != 12);
+}
+
+void Menu::showDoublyResearchMenu()
+{
+    cout << endl;
+    cout << "==== Menu Pomiarow: Lista Dwukierunkowa ====" << endl;
+    cout << "Pomiar: 10 serii po 10 kopii, seed 12345, zakres [0, 16777215]" << endl;
+    cout << "Wyniki sa zapisywane do pliku: pomiary.txt" << endl;
+    cout << "1. Zmierz pushBack" << endl;
+    cout << "2. Powrot do menu listy dwukierunkowej" << endl;
+    cout << "----> ";
+}
+
+void Menu::handleDoublyResearchMenu()
+{
+    int choice;
+
+    do
+    {
+        showDoublyResearchMenu();
+        cin >> choice;
+
+        switch (choice)
+        {
+            case 1:
+            {
+                int size;
+
+                cout << "Podaj rozmiar poczatkowy struktury: ";
+                cin >> size;
+
+                if (size < 0)
+                {
+                    cout << "Niepoprawne dane!" << endl;
+                    break;
+                }
+
+                research.measureDoublyLinkedListPushBack(size);
+                break;
+            }
+
+            case 2:
+            {
+                cout << "Powrot do menu listy dwukierunkowej." << endl;
+                break;
+            }
+
+            default:
+            {
+                cout << "Niepoprawna opcja!" << endl;
+                break;
+            }
+        }
+
+    } while (choice != 2);
 }
