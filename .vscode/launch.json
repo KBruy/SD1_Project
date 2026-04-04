@@ -18,7 +18,9 @@
             "preLaunchTask": "Build C++ project",
             "windows": {
                 "program": "${workspaceFolder}\\build\\app.exe",
-                "MIMode": "gdb"
+                "MIMode": "gdb",
+                "miDebuggerPath": "gdb.exe",
+                "externalConsole": true
             }
         }
     ]

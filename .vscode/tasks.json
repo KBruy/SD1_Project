@@ -3,16 +3,16 @@
         {
             "type": "shell",
             "label": "Build C++ project",
-            "command": "mkdir -p build && clang++ -std=c++17 -Wall -Wextra -g $(find . -name '*.cpp' -not -path './build/*') -o build/app",
+            "command": "mkdir -p build && clang++ -std=c++17 -Wall -Wextra -g ArrayList.cpp SinglyLinkedList.cpp DoublyLinkedList.cpp Menu.cpp Research.cpp main.cpp -o build/app",
             "windows": {
                 "command": "cmd",
                 "args": [
                     "/c",
-                    "if not exist build mkdir build && g++ -std=c++17 -Wall -Wextra -g ArrayList.cpp Menu.cpp Research.cpp main.cpp -o build\\app.exe"
+                    "if not exist build mkdir build && g++ -std=c++17 -Wall -Wextra -g ArrayList.cpp SinglyLinkedList.cpp DoublyLinkedList.cpp Menu.cpp Research.cpp main.cpp -o build\\app.exe"
                 ]
             },
             "linux": {
-                "command": "mkdir -p build && g++ -std=c++17 -Wall -Wextra -g $(find . -name '*.cpp' -not -path './build/*') -o build/app"
+                "command": "mkdir -p build && g++ -std=c++17 -Wall -Wextra -g ArrayList.cpp SinglyLinkedList.cpp DoublyLinkedList.cpp Menu.cpp Research.cpp main.cpp -o build/app"
             },
             "args": [],
             "options": {
@@ -31,7 +31,7 @@
                 "panel": "dedicated",
                 "clear": true
             },
-            "detail": "Buduje wszystkie pliki .cpp (macOS: clang++, Windows/Linux: g++)."
+            "detail": "Buduje pelny projekt (macOS: clang++, Windows/Linux: g++)."
         },
         {
             "type": "shell",
